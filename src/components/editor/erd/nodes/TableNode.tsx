@@ -11,7 +11,7 @@ export const TABLE_NODE_TYPE = 'table';
 export const TableNode = ({ data, id, selected }: NodeProps) => {
   const { removeNode } = useNode();
 
-  const onChange = useCallback((evt) => {
+  const onChange = useCallback((evt: any) => {
     console.log(evt.target.value);
   }, []);
 
