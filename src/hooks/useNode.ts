@@ -1,4 +1,4 @@
-import { createNode as createNodeUtil, nodesAtom } from "@/store/index"
+import { createNode as createNodeUtil, nodesAtom } from "@/store/editor"
 import { useRecoilCallback } from "recoil"
 
 export function useNode() {

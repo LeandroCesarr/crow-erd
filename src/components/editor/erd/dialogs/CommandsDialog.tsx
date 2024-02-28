@@ -1,33 +1,23 @@
 'use client';
 
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC } from 'react';
 import { useRecoilState } from 'recoil';
-import {
-  MagnifyingGlassIcon,
-  MoonIcon,
-  TableIcon,
-} from '@radix-ui/react-icons';
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
-  CommandItem,
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command';
-import { commandsDialogAtom } from '@/store';
+import { commandsDialogAtom } from '@/store/editor';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { useNode } from '@/hooks/useNode';
-import { TABLE_NODE_TYPE } from '../nodes/TableNode';
+import { NodeCommands } from '../commands/nodes/NodeCommands';
+import { ConfigurationCommands } from '@/components/common/commands/ConfigurationCommands';
 
 export const CommandsDialog: FC = (): JSX.Element => {
   const [open, setOpen] = useRecoilState(commandsDialogAtom);
 
-  const { createNode } = useNode();
-
-  function handleCreateTable() {
-    createNode(TABLE_NODE_TYPE, true);
+  function handleExecuteCommand() {
     setOpen(false);
   }
 
@@ -39,18 +29,8 @@ export const CommandsDialog: FC = (): JSX.Element => {
             <CommandInput placeholder="Type a command. or search..." />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup heading="Insert">
-                <CommandItem onSelect={handleCreateTable}>
-                  <TableIcon className="mr-2 h-4 w-4" />
-                  <span>Insert table</span>
-                </CommandItem>
-              </CommandGroup>
-              <CommandGroup heading="Configuration">
-                <CommandItem>
-                  <MoonIcon className="mr-2 h-4 w-4" />
-                  <span>Toggle dark mode</span>
-                </CommandItem>
-              </CommandGroup>
+              <NodeCommands onExecute={handleExecuteCommand} />
+              <ConfigurationCommands onExecute={handleExecuteCommand} />
               <CommandSeparator />
             </CommandList>
           </Command>

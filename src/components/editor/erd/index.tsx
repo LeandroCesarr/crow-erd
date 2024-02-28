@@ -14,7 +14,7 @@ import ReactFlow, {
 } from 'reactflow';
 import { TABLE_NODE_TYPE, TableNode } from './nodes/TableNode';
 import { useRecoilState } from 'recoil';
-import { edgesAtom, nodesAtom } from '@/store';
+import { edgesAtom, nodesAtom } from '@/store/editor';
 import { Edge } from '../../Edge';
 import { ActionsPanel } from './panels/ActionsPanel';
 import { CommandsDialog } from './dialogs/CommandsDialog';

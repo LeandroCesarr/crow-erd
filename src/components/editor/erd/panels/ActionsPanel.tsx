@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { commandLineDialogAtom, commandsDialogAtom } from '@/store';
+import { commandLineDialogAtom, commandsDialogAtom } from '@/store/editor';
 import React, { FC } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useHandleWindowCommand } from '@/hooks/useHandleWindowCommand';

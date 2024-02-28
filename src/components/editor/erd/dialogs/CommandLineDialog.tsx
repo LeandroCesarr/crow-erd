@@ -17,7 +17,7 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command';
-import { commandLineDialogAtom } from '@/store';
+import { commandLineDialogAtom } from '@/store/editor';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useNode } from '@/hooks/useNode';
 import { TABLE_NODE_TYPE } from '../nodes/TableNode';
