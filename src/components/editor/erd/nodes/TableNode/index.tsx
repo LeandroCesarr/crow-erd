@@ -37,7 +37,7 @@ export const TableNode = ({
         <ContextMenuTrigger>
           <div
             className={classNames(
-              'p-4 min-w-64 space-y-3 bg-background shadow-lg border border-muted text-black rounded-md text-foreground dark:border-foreground',
+              'p-4 w-96 space-y-3 bg-background shadow-lg border border-muted text-black rounded-md text-foreground dark:border-foreground',
               {
                 'outline outline-4 outline-cyan-500': selected,
               }
