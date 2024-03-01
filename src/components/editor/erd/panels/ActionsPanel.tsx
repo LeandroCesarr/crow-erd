@@ -18,11 +18,11 @@ export const ActionsPanel: FC<IActionsPanelProps> = (): JSX.Element => {
     setCommandLineOpen(true);
   }
 
-  useHandleWindowCommand('mod+k', () => {
+  useHandleWindowCommand('mod+p', () => {
     setCommandsOpen((open) => !open);
   });
 
-  useHandleWindowCommand('mod+p', () => {
+  useHandleWindowCommand('mod+k', () => {
     setCommandLineOpen((open) => !open);
   });
 
@@ -35,7 +35,7 @@ export const ActionsPanel: FC<IActionsPanelProps> = (): JSX.Element => {
       >
         <span>Commands</span>
         <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>K
+          <span className="text-xs">⌘</span>P
         </kbd>
       </Button>
 
@@ -46,7 +46,7 @@ export const ActionsPanel: FC<IActionsPanelProps> = (): JSX.Element => {
       >
         <span>Command-line</span>
         <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>P
+          <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
     </div>
