@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import { TableColumn } from './components/TableColumn';
 import { InsertColumn } from './components/InsertColumn';
 import { TableTitle } from './components/TableTitle';
+import { TableDescription } from './components/TableDescription';
 
 export const TABLE_NODE_TYPE = 'table';
 
@@ -44,18 +45,12 @@ export const TableNode = ({
           >
             <div className="space-y-2">
               <TableTitle tableId={id} />
-              <p>
-                {data.description ?? (
-                  <span className="text-muted-foreground">
-                    Describe your table here (e.g. what it represents)
-                  </span>
-                )}
-              </p>
+              <TableDescription tableId={id} />
             </div>
 
             <div className="w-full flex flex-col gap-2">
               {data.columns.map((column) => (
-                <TableColumn tableId={id} data={column} key={column.id} />
+                <TableColumn nodeId={id} columnId={column.id} key={column.id} />
               ))}
             </div>
           </div>

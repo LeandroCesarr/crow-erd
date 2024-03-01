@@ -51,14 +51,6 @@ export const ErdEditor: FC = () => {
     [setEdges]
   );
 
-  useEffect(() => {
-    console.log({
-      nodes,
-      edges
-    });
-
-  }, [nodes, edges])
-
   return (
     <div style={{ height: '100%' }}>
       <ReactFlow

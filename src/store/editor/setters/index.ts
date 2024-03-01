@@ -1,63 +1,35 @@
-import { TTableColumn } from "@/@types/nodes";
-import { ColumnKeyTypeEnum } from "@/enums/ColumnKeyTypeEnum";
 import { Node } from "reactflow";
+import { TBaseNodeProps, TTableColumn } from "@/@types/nodes";
 
-export function addTableColumnSetter(nodes: Node[], tableId: string, column: TTableColumn) : Node[] {
+export function updateNodeListItemSetter(nodes: Node[], nodeId: string, data: Node) : Node[] {
   return nodes.map((node) => {
-    if (node.id == tableId) {
-      return {
-        ...node,
-        data: {
-          ...node.data,
-          columns: [
-            ...node.data.columns,
-            column
-          ]
-        }
-      }
+    if (node.id == nodeId) {
+      return data
     }
 
     return node;
   })
 }
 
-export function editTableTitleSetter(nodes: Node[], tableId: string, title: string) : Node[] {
-  return nodes.map((node) => {
-    if (node.id == tableId) {
-      return {
-        ...node,
-        data: {
-          ...node.data,
-          title
-        }
-      }
+export function updateNodeDataSetter<T extends TBaseNodeProps>(node: Node, data: Partial<T>) : Node {
+  return {
+    ...node,
+    data: {
+      ...node.data,
+      ...data
     }
-
-    return node;
-  })
+  }
 }
 
-export function editColumnKeyTypeSetter(nodes: Node[], tableId: string, columnId: string, type: ColumnKeyTypeEnum | null) : Node[] {
-  return nodes.map((node) => {
-    if (node.id == tableId) {
+export function updateNodeColumnsSetter(columns: TTableColumn[], columnId: string, data: Partial<TTableColumn>) : TTableColumn[] {
+  return columns.map((column) => {
+    if (column.id == columnId) {
       return {
-        ...node,
-        data: {
-          ...node.data,
-          columns: node.data.columns.map((column: TTableColumn) => {
-            if (column.id === columnId) {
-              return {
-                ...column,
-                keyType: type
-              }
-            }
-
-            return column;
-          })
-        }
-      }
+        ...column,
+        ...data
+      } as TTableColumn
     }
 
-    return node;
+    return column;
   })
 }

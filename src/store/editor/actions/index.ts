@@ -1,34 +1,20 @@
-import { TTableColumn } from '@/@types/nodes';
-import { nodesAtom } from '..';
-import { addTableColumnSetter, editColumnKeyTypeSetter, editTableTitleSetter } from '../setters';
+import { TTableColumn, TTableProps } from '@/@types/nodes';
+import { updateNodeDataSetter } from '../setters';
 import { CallbackInterface } from 'recoil';
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
+import { nodeSelector } from '..';
 
 
 
 export function addTableNodeColumnCallback(
   recoil: CallbackInterface,
-  tableId: string,
+  nodeId: string,
   column: TTableColumn
 ) {
-  recoil.set(nodesAtom, (nodes) =>
-    addTableColumnSetter(nodes, tableId, column)
-  );
-}
-
-export function editTableTitleCallback(
-  recoil: CallbackInterface,
-  tableId: string,
-  title: string
-) {
-  recoil.set(nodesAtom, (nodes) => editTableTitleSetter(nodes, tableId, title));
-}
-
-export function editColumnKeyTypeCallback(
-  recoil: CallbackInterface,
-  tableId: string,
-  columnId: string,
-  type: ColumnKeyTypeEnum | null
-) {
-  recoil.set(nodesAtom, (nodes) => editColumnKeyTypeSetter(nodes, tableId, columnId, type));
+  recoil.set(nodeSelector(nodeId), (node) => updateNodeDataSetter<TTableProps>(node, {
+    columns: [
+      ...node.data.columns,
+      column
+    ]
+  }))
+  ;
 }

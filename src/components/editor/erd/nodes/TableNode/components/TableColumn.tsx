@@ -1,4 +1,3 @@
-import { TTableColumn } from '@/@types/nodes';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,16 +9,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
-import { editColumnKeyTypeCallback } from '@/store/editor';
+import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
+import { nodeColumnSelector } from '@/store/editor';
 import { KeyIcon } from '@heroicons/react/24/outline';
 import {
   DotsVerticalIcon,
   LetterCaseCapitalizeIcon,
 } from '@radix-ui/react-icons';
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { useRecoilCallback } from 'recoil';
+import { useRecoilCallback, useRecoilState } from 'recoil';
 
 const ICON_PROPS = {
   className: 'w-4 h-4',
@@ -33,30 +33,57 @@ const ICON_MAP = {
 const COLUMNS_WITH_VALUE = [ColumnTypeEnum.VARCHAR];
 
 interface ITableColumnProps {
-  tableId: string;
-  data: TTableColumn;
+  nodeId: string;
+  columnId: string;
 }
 
-export const TableColumn: FC<ITableColumnProps> = ({
-  data,
-  tableId,
+const TableColumnComponent: FC<ITableColumnProps> = ({
+  nodeId,
+  columnId,
 }): JSX.Element => {
-  const changeKeyType = useRecoilCallback(
-    (recoil) => (type: ColumnKeyTypeEnum) => {
-      const typeToUpdate = type !== data.keyType ? type : null;
-      editColumnKeyTypeCallback(recoil, tableId, data.id, typeToUpdate);
-    }
+  const [column, setColumn] = useRecoilState(
+    nodeColumnSelector({ nodeId, columnId })
   );
 
-  return (
-    <div className="group flex items-center relative gap-2" key={data.id}>
-      <div className='w-20 flex items-center'>
-        {ICON_MAP[data.type]}
-        <span className='ml-2 text-muted-foreground'>{data.type}</span>
-      </div>
-      <p className="grow">{data.name}</p>
+  const { inputProps, isEditing } = useDoubleClickInput({
+    onChange: handleUpdateName,
+  });
 
-      {COLUMNS_WITH_VALUE.includes(data.type) ? (
+  function handleUpdateName(value: string) {
+    setColumn((old) => ({
+      ...old,
+      name: value,
+    }));
+  }
+
+  function handleChangeKeyType(type: ColumnKeyTypeEnum) {
+    setColumn((old) => ({
+      ...old,
+      keyType: type,
+    }));
+  }
+
+  return (
+    <div className="group flex items-center relative gap-2" key={column.id}>
+      <div className="w-20 flex items-center">
+        {ICON_MAP[column.type]}
+        <span className="ml-2 text-muted-foreground">{column.type}</span>
+      </div>
+
+      <input
+        {...inputProps}
+        placeholder="Empty title"
+        className={classNames(
+          'block grow text-lg font-medium border-none outline-none bg-transparent cursor-grab',
+          {
+            'text-muted-foreground': !column.name,
+            'cursor-text nodrag': isEditing,
+          }
+        )}
+        value={column.name}
+      />
+
+      {COLUMNS_WITH_VALUE.includes(column.type) ? (
         <input
           placeholder="Value"
           className="border-none outline-none bg-transparent w-32"
@@ -75,17 +102,17 @@ export const TableColumn: FC<ITableColumnProps> = ({
             <DropdownMenuLabel>Configuration</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
-              checked={data.keyType == ColumnKeyTypeEnum.PRIMARY_KEY}
+              checked={column.keyType == ColumnKeyTypeEnum.PRIMARY_KEY}
               onCheckedChange={() =>
-                changeKeyType(ColumnKeyTypeEnum.PRIMARY_KEY)
+                handleChangeKeyType(ColumnKeyTypeEnum.PRIMARY_KEY)
               }
             >
               Primary key
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-              checked={data.keyType == ColumnKeyTypeEnum.FOREIGN_KEY}
+              checked={column.keyType == ColumnKeyTypeEnum.FOREIGN_KEY}
               onCheckedChange={() =>
-                changeKeyType(ColumnKeyTypeEnum.FOREIGN_KEY)
+                handleChangeKeyType(ColumnKeyTypeEnum.FOREIGN_KEY)
               }
             >
               Foreign key
@@ -96,21 +123,23 @@ export const TableColumn: FC<ITableColumnProps> = ({
 
       <Handle
         className={classNames('handle left', {
-          'opacity-0 pointer-events-none': !data.keyType,
+          'opacity-0 pointer-events-none': !column.keyType,
         })}
         type="source"
         position={Position.Left}
-        id={`${tableId}-${data.id}-source`}
+        id={`${nodeId}-${column.id}-source`}
       />
 
       <Handle
         className={classNames('handle right', {
-          'opacity-0 pointer-events-none': !data.keyType,
+          'opacity-0 pointer-events-none': !column.keyType,
         })}
         type="target"
         position={Position.Right}
-        id={`${tableId}-${data.id}-target`}
+        id={`${nodeId}-${column.id}-target`}
       />
     </div>
   );
 };
+
+export const TableColumn = memo(TableColumnComponent)
