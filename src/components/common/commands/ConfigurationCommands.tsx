@@ -1,16 +1,28 @@
+import React, { FC } from 'react';
+import { useTheme } from 'next-themes';
 import { CommandGroup, CommandItem } from '@/components/ui/command';
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
-import { useTheme } from 'next-themes';
-import React, { FC } from 'react';
+
+const THEMES = [
+  {
+    value: 'dark',
+    label: 'Dark',
+    icon: <SunIcon />,
+  },
+  {
+    value: 'light',
+    label: 'Light',
+    icon: <MoonIcon />,
+  },
+];
 
 interface IConfigurationCommandsProps {
   onExecute?: () => void;
 }
 
-export const ConfigurationCommands: FC<
-  IConfigurationCommandsProps
-> = ({ onExecute }): JSX.Element => {
-
+export const ConfigurationCommands: FC<IConfigurationCommandsProps> = ({
+  onExecute,
+}): JSX.Element => {
   const { setTheme } = useTheme();
 
   function handleExecuteCommand() {
@@ -24,14 +36,15 @@ export const ConfigurationCommands: FC<
 
   return (
     <CommandGroup heading="Configuration">
-      <CommandItem onSelect={() => handleChangeTheme("dark")}>
-        <MoonIcon className="mr-2 h-4 w-4" />
-        <span>Toggle theme: dark</span>
-      </CommandItem>
-      <CommandItem onSelect={() => handleChangeTheme("light")}>
-        <SunIcon className="mr-2 h-4 w-4" />
-        <span>Toggle theme: light</span>
-      </CommandItem>
+      {THEMES.map((theme) => (
+        <CommandItem
+          key={theme.value}
+          onSelect={() => handleChangeTheme(theme.value)}
+        >
+          <div className="mr-2 h-4 w-4">{theme.icon}</div>
+          <span>Toggle theme: {theme.label}</span>
+        </CommandItem>
+      ))}
     </CommandGroup>
   );
 };

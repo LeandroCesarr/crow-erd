@@ -14,7 +14,7 @@ import ReactFlow, {
 import { TABLE_NODE_TYPE, TableNode } from './nodes/TableNode';
 import { useRecoilState } from 'recoil';
 import { edgesAtom, nodesAtom } from '@/store/editor';
-import { Edge } from '../../Edge';
+import { TableEdge } from './edges/TableEdge';
 import { ActionsPanel } from './panels/ActionsPanel';
 import { CommandsDialog } from './dialogs/CommandsDialog';
 import { CommandLineDialog } from './dialogs/CommandLineDialog';
@@ -24,7 +24,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  'custom-edge': Edge,
+  'table-edge': TableEdge,
 };
 
 const edgeOptions = {
@@ -47,7 +47,7 @@ export const ErdEditor: FC = () => {
 
   const onConnect = useCallback(
     (params: any) =>
-      setEdges((eds) => addEdge({ ...params, type: 'custom-edge' }, eds)),
+      setEdges((eds) => addEdge({ ...params, type: 'table-edge' }, eds)),
     [setEdges]
   );
 

@@ -1,15 +1,15 @@
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { FC } from 'react';
 import {
   BaseEdge,
   EdgeLabelRenderer,
   EdgeProps,
   Position,
-  getMarkerEnd,
   getSmoothStepPath,
   useReactFlow,
 } from 'reactflow';
 
-export const Edge = ({
+export const TableEdge: FC<EdgeProps> = ({
   id,
   sourceX,
   sourceY,
@@ -17,8 +17,8 @@ export const Edge = ({
   targetY,
   selected,
   markerEnd,
-  markerStart
-}: EdgeProps) => {
+  markerStart,
+}) => {
   const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
@@ -26,7 +26,7 @@ export const Edge = ({
     targetX,
     targetY,
     sourcePosition: Position.Left,
-    targetPosition: Position.Right
+    targetPosition: Position.Right,
   });
 
   return (
