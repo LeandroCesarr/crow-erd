@@ -1,12 +1,32 @@
 import { selectorFamily } from 'recoil';
 import {
+  edgesAtom,
   nodesAtom,
+  updateEdgeListItemSetter,
   updateNodeColumnsSetter,
   updateNodeDataSetter,
   updateNodeListItemSetter,
 } from '@/store/editor';
-import { Node } from 'reactflow';
-import { TTableColumn, TTableNode, TTableProps } from '@/@types/nodes';
+import { Edge, Node } from 'reactflow';
+import { TTableColumn, TTableEdgeData, TTableNode, TTableProps } from '@/@types/nodes';
+
+export const edgeSelector = selectorFamily({
+  key: 'edge',
+  get:
+    (edgeId: string) =>
+    ({ get }) => {
+      const edges = get(edgesAtom);
+
+      return edges.find(({ id }) => id === edgeId) ?? ({} as Edge<TTableEdgeData>);
+    },
+  set:
+    (edgeId: string) =>
+    ({ set }, newValue) => {
+      set(edgesAtom, (edges) =>
+        updateEdgeListItemSetter(edges, edgeId, newValue as Edge<TTableEdgeData>)
+      );
+    },
+});
 
 export const nodeSelector = selectorFamily({
   key: 'node',

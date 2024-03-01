@@ -1,7 +1,7 @@
 'use client';
 
 import 'reactflow/dist/style.css';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 import ReactFlow, {
   Background,
   Controls,
@@ -18,6 +18,7 @@ import { TableEdge } from './edges/TableEdge';
 import { ActionsPanel } from './panels/ActionsPanel';
 import { CommandsDialog } from './dialogs/CommandsDialog';
 import { CommandLineDialog } from './dialogs/CommandLineDialog';
+import { Markers } from './edges/Markers';
 
 const nodeTypes = {
   [TABLE_NODE_TYPE]: TableNode,
@@ -69,6 +70,8 @@ export const ErdEditor: FC = () => {
         <Panel position="top-right">
           <ActionsPanel />
         </Panel>
+
+        <Markers />
       </ReactFlow>
 
       <CommandsDialog />

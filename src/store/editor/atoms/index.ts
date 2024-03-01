@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { Edge } from "reactflow";
 import { syncLocalStorageEffect } from "@/store/utils";
-import { TTableNode } from "@/@types/nodes";
+import { TTableEdgeData, TTableNode } from "@/@types/nodes";
 import { ColumnTypeEnum } from "@/enums/ColumnTypeEnum";
 
 export const nodesAtom = atom<TTableNode[]>({
@@ -43,7 +43,7 @@ export const nodesAtom = atom<TTableNode[]>({
   effects: [syncLocalStorageEffect()]
 })
 
-export const edgesAtom = atom<Edge[]>({
+export const edgesAtom = atom<Edge<TTableEdgeData>[]>({
   key: "edges",
   default: [],
   effects: [syncLocalStorageEffect()]
