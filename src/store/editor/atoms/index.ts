@@ -1,8 +1,9 @@
 import { atom } from "recoil";
-import { Edge, Node } from "reactflow";
+import { Edge } from "reactflow";
 import { syncLocalStorageEffect } from "@/store/utils";
+import { TTableNode } from "@/@types/nodes";
 
-export const nodesAtom = atom<Node[]>({
+export const nodesAtom = atom<TTableNode[]>({
   key: "nodes",
   default: [],
   effects: [syncLocalStorageEffect()]

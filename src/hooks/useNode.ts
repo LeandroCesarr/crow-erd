@@ -1,9 +1,14 @@
+import { TBaseNodeProps } from "@/@types/nodes"
 import { createNode as createNodeUtil, nodesAtom } from "@/store/editor"
+import { getCenterOnViewPort } from "@/utils/flow-viewport"
+import { useViewport } from "reactflow"
 import { useRecoilCallback } from "recoil"
 
 export function useNode() {
-  const createNode = useRecoilCallback(({ set }) => async (type: string, selected?: boolean) => {
-    set(nodesAtom, (curr) => [...curr, createNodeUtil(type)])
+  const viewport = useViewport()
+
+  const createNode = useRecoilCallback(({ set }) => async <T extends TBaseNodeProps>(type: string, data?: T) => {
+    set(nodesAtom, (curr) => [...curr, createNodeUtil(type, getCenterOnViewPort(viewport), data)])
   })
 
   const removeNode = useRecoilCallback(({ set }) => async (id: string) => {

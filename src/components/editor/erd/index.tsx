@@ -6,7 +6,6 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
-  Node,
   Panel,
   addEdge,
   applyEdgeChanges,
@@ -47,13 +46,18 @@ export const ErdEditor: FC = () => {
   );
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge({ ...params, type: "custom-edge" }, eds)),
-    [setEdges],
+    (params: any) =>
+      setEdges((eds) => addEdge({ ...params, type: 'custom-edge' }, eds)),
+    [setEdges]
   );
 
   useEffect(() => {
-    console.log(edges);
-  }, [edges])
+    console.log({
+      nodes,
+      edges
+    });
+
+  }, [nodes, edges])
 
   return (
     <div style={{ height: '100%' }}>
@@ -69,8 +73,8 @@ export const ErdEditor: FC = () => {
       >
         <Background />
         <Controls />
-        <MiniMap />
-        <Panel position='top-right'>
+        <MiniMap nodeColor="var(--muted)" maskColor="rgb(0, 0, 0, 0.3)" />
+        <Panel position="top-right">
           <ActionsPanel />
         </Panel>
       </ReactFlow>

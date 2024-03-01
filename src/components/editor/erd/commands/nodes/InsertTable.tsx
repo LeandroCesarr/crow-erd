@@ -3,6 +3,7 @@ import { TableIcon } from '@radix-ui/react-icons';
 import { CommandItem } from '@/components/ui/command';
 import { TABLE_NODE_TYPE } from '@/components/editor/erd/nodes/TableNode';
 import { useNode } from '@/hooks/useNode';
+import { TTableProps } from '@/@types/nodes';
 
 interface IInsertTableCommandProps {
   onExecute?: () => void;
@@ -14,7 +15,11 @@ export const InsertTableCommand: FC<IInsertTableCommandProps> = ({
   const { createNode } = useNode();
 
   function handleCreateTable() {
-    createNode(TABLE_NODE_TYPE, true);
+    createNode<TTableProps>(TABLE_NODE_TYPE, {
+      title: "Empty table",
+      columns: []
+    });
+
     onExecute?.();
   }
 
