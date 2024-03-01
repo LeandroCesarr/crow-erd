@@ -1,0 +1,19 @@
+.handle {
+  @apply !border-4 !h-4 !w-4 !bg-foreground !border-background;
+
+  &.bottom {
+    @apply !-bottom-2;
+  }
+
+  &.left {
+    left: calc(-8px - theme("spacing.4")) !important;
+  }
+
+  &.right {
+    right: calc(-8px - theme("spacing.4")) !important;
+  }
+
+  &.top {
+    @apply !-top-2;
+  }
+}

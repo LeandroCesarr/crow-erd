@@ -1,0 +1,19 @@
+.react-flow__controls button {
+  @apply !bg-background !text-foreground !border !border-solid !border-muted !w-6 !h-6 hover:!bg-muted transition-colors;
+}
+
+.react-flow__controls button:first-child {
+  @apply !rounded-t-md;
+}
+
+.react-flow__controls button:not(:first-child) {
+  @apply !border-t-0;
+}
+
+.react-flow__controls button:last-child {
+  @apply !rounded-b-md;
+}
+
+.react-flow__controls button path {
+  @apply fill-foreground;
+}

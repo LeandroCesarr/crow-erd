@@ -1,0 +1,3 @@
+.react-flow__minimap {
+  @apply !bg-background !rounded-sm overflow-hidden !border !border-muted;
+}
