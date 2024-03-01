@@ -1,4 +1,5 @@
 export enum ColumnTypeEnum {
   UUID = "uuid",
-  VARCHAR = "varchar"
+  VARCHAR = "varchar",
+  CHAR = "char"
 }

@@ -40,6 +40,11 @@ const OPTIONS = [
         value: ColumnTypeEnum.VARCHAR,
         icon: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
       },
+      {
+        label: 'char',
+        value: ColumnTypeEnum.CHAR,
+        icon: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
+      },
     ],
   },
 ];
@@ -60,7 +65,7 @@ export const InsertColumn: FC<IInsertColumnProps> = ({
       id: uuid(),
       name: 'New column',
       type: selectedType as ColumnTypeEnum,
-      required: false,
+      required: true,
     } as TTableColumn);
   });
 
