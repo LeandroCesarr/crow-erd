@@ -1,5 +1,5 @@
 import { TBaseNodeProps } from "@/@types/nodes"
-import { createNode as createNodeUtil, nodesAtom } from "@/store/editor"
+import { createNode as createNodeUtil, lastNodeIdSelector, nodesAtom } from "@/store/editor"
 import { getCenterOnViewPort } from "@/utils/flow-viewport"
 import { useViewport } from "reactflow"
 import { useRecoilCallback } from "recoil"
@@ -7,8 +7,11 @@ import { useRecoilCallback } from "recoil"
 export function useNode() {
   const viewport = useViewport()
 
-  const createNode = useRecoilCallback(({ set }) => async <T extends TBaseNodeProps>(type: string, data?: T) => {
-    set(nodesAtom, (curr) => [...curr, createNodeUtil(type, getCenterOnViewPort(viewport), data)])
+  const createNode = useRecoilCallback(({ set, snapshot }) => async <T extends TBaseNodeProps>(type: string, data?: T) => {
+    const currentLastId = await snapshot.getPromise(lastNodeIdSelector);
+    const newId = `T${currentLastId + 1}`;
+
+    set(nodesAtom, (curr) => [...curr, createNodeUtil(type, newId, getCenterOnViewPort(viewport), data)])
   })
 
   const removeNode = useRecoilCallback(({ set }) => async (id: string) => {

@@ -44,7 +44,12 @@ export const TableNode = ({
             )}
           >
             <div className="space-y-2">
-              <TableTitle tableId={id} />
+              <div className="flex items-center">
+                <p className="shrink-0 mr-2 text-muted-foreground">#{id}</p>
+                <div className='grow'>
+                  <TableTitle tableId={id} />
+                </div>
+              </div>
               <TableDescription tableId={id} />
             </div>
 

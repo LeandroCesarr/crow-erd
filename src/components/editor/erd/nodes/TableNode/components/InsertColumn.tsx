@@ -58,14 +58,13 @@ export const InsertColumn: FC<IInsertColumnProps> = ({
 }): JSX.Element => {
   const [selectedType, setSelectedType] = useState('');
 
-  const handleAddColumn = useRecoilCallback((recoil) => () => {
+  const handleAddColumn = useRecoilCallback((recoil) => async () => {
     if (!selectedType) return;
 
-    addTableNodeColumnCallback(recoil, tableId, {
-      id: uuid(),
+    await addTableNodeColumnCallback(recoil, tableId, {
       name: 'New column',
       type: selectedType as ColumnTypeEnum,
-      required: true,
+      required: true
     } as TTableColumn);
   });
 

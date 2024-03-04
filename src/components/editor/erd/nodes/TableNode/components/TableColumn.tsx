@@ -69,6 +69,8 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
 
   return (
     <div className="group flex items-center relative gap-2" key={column.id}>
+      <p className="shrink-0 mr-2 text-muted-foreground">#{column.id}</p>
+
       <div
         className={classNames('w-20 flex items-center shrink-0', {
           'text-amber-500': !column.required,

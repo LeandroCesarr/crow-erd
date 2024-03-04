@@ -1,4 +1,4 @@
-import { selectorFamily } from 'recoil';
+import { selector, selectorFamily } from 'recoil';
 import {
   edgesAtom,
   nodesAtom,
@@ -8,7 +8,12 @@ import {
   updateNodeListItemSetter,
 } from '@/store/editor';
 import { Edge, Node } from 'reactflow';
-import { TTableColumn, TTableEdgeData, TTableNode, TTableProps } from '@/@types/nodes';
+import {
+  TTableColumn,
+  TTableEdgeData,
+  TTableNode,
+  TTableProps,
+} from '@/@types/nodes';
 
 export const edgeSelector = selectorFamily({
   key: 'edge',
@@ -17,13 +22,19 @@ export const edgeSelector = selectorFamily({
     ({ get }) => {
       const edges = get(edgesAtom);
 
-      return edges.find(({ id }) => id === edgeId) ?? ({} as Edge<TTableEdgeData>);
+      return (
+        edges.find(({ id }) => id === edgeId) ?? ({} as Edge<TTableEdgeData>)
+      );
     },
   set:
     (edgeId: string) =>
     ({ set }, newValue) => {
       set(edgesAtom, (edges) =>
-        updateEdgeListItemSetter(edges, edgeId, newValue as Edge<TTableEdgeData>)
+        updateEdgeListItemSetter(
+          edges,
+          edgeId,
+          newValue as Edge<TTableEdgeData>
+        )
       );
     },
 });
@@ -106,4 +117,32 @@ export const nodeColumnSelector = selectorFamily({
           ),
         });
       }),
+});
+
+export const lastNodeIdSelector = selector({
+  key: 'lastNodeId',
+  get:
+    ({ get }) => {
+      const nodes = get(nodesAtom);
+
+      return Math.max(
+        0,
+        ...nodes.map((node) => Number.parseInt(node.id.replace(/\D/g, '')))
+      );
+    },
+});
+
+
+export const lastNodeColumnIdSelector = selectorFamily({
+  key: 'lastNodeId',
+  get:
+    (nodeId: string) =>
+    ({ get }) => {
+      const node: TTableNode = get(nodeSelector(nodeId));
+
+      return Math.max(
+        0,
+        ...node.data.columns.map((column) => Number.parseInt(column.id.replace(/\D/g, '')))
+      );
+    },
 });
