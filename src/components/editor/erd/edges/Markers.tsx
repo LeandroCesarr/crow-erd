@@ -19,12 +19,12 @@ export const Markers: FC = (): JSX.Element => {
             x2="71.5"
             y2="54"
             strokeWidth="5"
-            className="text-gray-400 stroke-current"
+            className="text-muted-foreground stroke-current"
           />
           <path
             d="M54.5 27C54.5 41.6269 42.4204 53.5 27.5 53.5C12.5796 53.5 0.5 41.6269 0.5 27C0.5 12.3731 12.5796 0.5 27.5 0.5C42.4204 0.5 54.5 12.3731 54.5 27Z"
             strokeWidth="5"
-            className="text-gray-400 stroke-current"
+            className="text-muted-foreground stroke-current"
             fill="none"
           />
         </marker>
@@ -41,7 +41,7 @@ export const Markers: FC = (): JSX.Element => {
           <path
             d="M16.5 0V54M0.5 0V54"
             strokeWidth="3"
-            className="text-gray-400 stroke-current"
+            className="text-muted-foreground stroke-current"
             fill="none"
           />
         </marker>
@@ -56,7 +56,7 @@ export const Markers: FC = (): JSX.Element => {
           refY="0"
         >
           <polyline
-            className="text-gray-400 stroke-current"
+            className="text-muted-foreground stroke-current"
             strokeWidth="3"
             strokeLinecap="square"
             fill="none"
@@ -74,7 +74,7 @@ export const Markers: FC = (): JSX.Element => {
           refY="0"
         >
           <polyline
-            className="text-gray-400 stroke-current"
+            className="text-muted-foreground stroke-current"
             strokeLinejoin="round"
             strokeLinecap="square"
             strokeWidth="1.5"
