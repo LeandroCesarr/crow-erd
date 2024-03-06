@@ -69,3 +69,9 @@ export const commandLineDialogAtom = atom({
   key: "commandLineDialog",
   default: false
 })
+
+export const showElementsIdAtom = atom<boolean>({
+  key: "showElementsId",
+  default: true,
+  effects: [syncLocalStorageEffect()]
+})

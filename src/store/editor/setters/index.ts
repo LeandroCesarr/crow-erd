@@ -1,5 +1,9 @@
 import { Edge, Node } from "reactflow";
 import { TBaseNodeProps, TTableColumn } from "@/@types/nodes";
+import { RecoilState } from "recoil";
+import { showElementsIdAtom } from "..";
+
+type TRecoilSetter = <T>(recoilVal: RecoilState<T>, valOrUpdater: ((currVal: T) => T) | T) => void
 
 export function updateEdgeListItemSetter(edges: Edge[], edgeId: string, data: Edge) : Edge[] {
   return edges.map((edge) => {
@@ -42,4 +46,8 @@ export function updateNodeColumnsSetter(columns: TTableColumn[], columnId: strin
 
     return column;
   })
+}
+
+export function toggleElementIdVisibility(set: TRecoilSetter) {
+  set(showElementsIdAtom, (val) => !val)
 }

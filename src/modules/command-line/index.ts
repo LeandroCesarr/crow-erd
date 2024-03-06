@@ -1,7 +1,7 @@
 import { addEdge } from "reactflow";
 import { CallbackInterface } from "recoil"
 import { EdgeTypeEnum } from "@/enums/EdgeTypeEnum";
-import { createEdge, edgesAtom, nodeColumnSelector, nodeSelector } from "@/store/editor";
+import { createEdge, edgesAtom, nodeColumnSelector, nodeSelector, toggleElementIdVisibility } from "@/store/editor";
 import { ArgumentsEnum, CommandsEnum, TParsedCommand } from "./source/data";
 
 export async function handleConnectCommand(recoil: CallbackInterface, command: TParsedCommand): Promise<void> {
@@ -26,9 +26,17 @@ export async function handleConnectCommand(recoil: CallbackInterface, command: T
   recoil.set(edgesAtom, (eds) => addEdge(edgeToCreate, eds))
 }
 
+export async function handleToggleElementsIdVisibility(recoil: CallbackInterface, command: TParsedCommand): Promise<void> {
+  toggleElementIdVisibility(recoil.set)
+}
+
 export async function handleCommandCallback(recoil: CallbackInterface, command: TParsedCommand) : Promise<void> {
   if (command.type === CommandsEnum.CONNECT_COLUMNS) {
     handleConnectCommand(recoil, command);
+  }
+
+  if (command.type === CommandsEnum.TOGGLE_ELEMENTS_ID_VISIBILITY) {
+    handleToggleElementsIdVisibility(recoil, command);
   }
 }
 

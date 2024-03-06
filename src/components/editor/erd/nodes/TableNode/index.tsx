@@ -12,6 +12,8 @@ import { TableColumn } from './components/TableColumn';
 import { InsertColumn } from './components/InsertColumn';
 import { TableTitle } from './components/TableTitle';
 import { TableDescription } from './components/TableDescription';
+import { useRecoilValue } from 'recoil';
+import { showElementsIdAtom } from '@/store/editor';
 
 export const TABLE_NODE_TYPE = 'table';
 
@@ -21,6 +23,7 @@ export const TableNode = ({
   selected,
   dragging,
 }: TTableNodeProps) => {
+  const showElementsId = useRecoilValue(showElementsIdAtom);
   const { removeNode } = useNode();
 
   const shouldShowActions = useMemo(() => {
@@ -45,8 +48,11 @@ export const TableNode = ({
           >
             <div className="space-y-2">
               <div className="flex items-center">
-                <p className="shrink-0 mr-2 text-muted-foreground">#{id}</p>
-                <div className='grow'>
+                {showElementsId ? (
+                  <p className="shrink-0 mr-2 text-muted-foreground">#{id}</p>
+                ) : null}
+
+                <div className="grow">
                   <TableTitle tableId={id} />
                 </div>
               </div>

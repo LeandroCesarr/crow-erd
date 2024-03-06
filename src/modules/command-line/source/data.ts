@@ -11,6 +11,7 @@ export type TCommandArgument = TCommandPathArgument | TCommandValueArgument;
 
 export enum CommandsEnum {
   CONNECT_COLUMNS = 'cn',
+  TOGGLE_ELEMENTS_ID_VISIBILITY = 'tiv',
 }
 
 export const COMMANDS = new Map([
@@ -19,6 +20,13 @@ export const COMMANDS = new Map([
     {
       label: 'Connect columns',
       arguments: [ArgumentsEnum.Path, ArgumentsEnum.Path],
+    },
+  ],
+  [
+    CommandsEnum.TOGGLE_ELEMENTS_ID_VISIBILITY,
+    {
+      label: 'Toggle id visibility',
+      arguments: [],
     },
   ],
 ]);

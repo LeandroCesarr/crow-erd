@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, createElement, memo, useMemo } from 'react';
 import classNames from 'classnames';
 import { Handle, Position } from 'reactflow';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
-import { nodeColumnSelector } from '@/store/editor';
+import { nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
 import { COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
 
@@ -17,6 +17,8 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
   nodeId,
   columnId,
 }): JSX.Element => {
+  const showElementsId = useRecoilValue(showElementsIdAtom);
+
   const [column, setColumn] = useRecoilState(
     nodeColumnSelector({ nodeId, columnId })
   );
@@ -59,7 +61,9 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
 
   return (
     <div className="group flex items-center relative gap-2" key={column.id}>
-      <p className="shrink-0 mr-2 text-muted-foreground">#{column.id}</p>
+      {showElementsId ? (
+        <p className="shrink-0 mr-2 text-muted-foreground">#{column.id}</p>
+      ) : null}
 
       <div
         className={classNames('w-28 flex items-center shrink-0', {
