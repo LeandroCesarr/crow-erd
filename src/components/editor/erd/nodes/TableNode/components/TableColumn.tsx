@@ -1,26 +1,12 @@
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
-import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
-import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
-import { nodeColumnSelector } from '@/store/editor';
-import { KeyIcon } from '@heroicons/react/24/outline';
-import { LetterCaseCapitalizeIcon } from '@radix-ui/react-icons';
+import React, { ChangeEvent, FC, createElement, memo, useMemo } from 'react';
 import classNames from 'classnames';
-import React, { ChangeEvent, FC, memo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useRecoilState } from 'recoil';
+import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
+import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
+import { nodeColumnSelector } from '@/store/editor';
+import { COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
-
-const ICON_PROPS = {
-  className: 'w-4 h-4',
-};
-
-const ICON_MAP = {
-  [ColumnTypeEnum.UUID]: <KeyIcon {...ICON_PROPS} />,
-  [ColumnTypeEnum.VARCHAR]: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
-  [ColumnTypeEnum.CHAR]: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
-};
-
-const COLUMNS_WITH_VALUE = [ColumnTypeEnum.VARCHAR, ColumnTypeEnum.CHAR];
 
 interface ITableColumnProps {
   nodeId: string;
@@ -34,6 +20,10 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
   const [column, setColumn] = useRecoilState(
     nodeColumnSelector({ nodeId, columnId })
   );
+
+  const columnTypeInfo = useMemo(() => {
+    return COLUMNS_MAP.get(column.type)!;
+  }, [column.type]);
 
   const { inputProps, isEditing } = useDoubleClickInput({
     onChange: handleUpdateName,
@@ -72,13 +62,18 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
       <p className="shrink-0 mr-2 text-muted-foreground">#{column.id}</p>
 
       <div
-        className={classNames('w-20 flex items-center shrink-0', {
+        className={classNames('w-28 flex items-center shrink-0', {
           'text-amber-500': !column.required,
           'text-green-500': column.required,
         })}
       >
-        {ICON_MAP[column.type]}
-        <span className="ml-2 text-muted-foreground">{column.type}</span>
+        {createElement(columnTypeInfo.icon as any, {
+          className: 'w-4 h-4 shrink-0',
+        })}
+
+        <span className="ml-2 text-muted-foreground">
+          {columnTypeInfo.label}
+        </span>
       </div>
 
       <div className="grow">
@@ -96,7 +91,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         />
       </div>
 
-      {COLUMNS_WITH_VALUE.includes(column.type) ? (
+      {columnTypeInfo.hasValue ? (
         <div className="w-32">
           <input
             placeholder="Value"

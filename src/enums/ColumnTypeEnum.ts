@@ -1,5 +1,16 @@
 export enum ColumnTypeEnum {
   UUID = "uuid",
   VARCHAR = "varchar",
-  CHAR = "char"
+  CHAR = "char",
+  JSON = "json",
+  BOOL = "bool",
+  BIT = "bit",
+  MONEY = "money",
+  TINY_INT = "tiny_int",
+  INT = "int",
+  BIGINT = "bigint",
+  DECIMAL = "decimal",
+  DATE = "date",
+  DATE_TIME = "date_time",
+  TIMESTAMP = "timestamp",
 }

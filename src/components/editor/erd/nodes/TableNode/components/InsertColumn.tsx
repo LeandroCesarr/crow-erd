@@ -1,5 +1,4 @@
-import React, { FC, useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import React, { FC, createElement, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -10,44 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { LetterCaseCapitalizeIcon, PlusIcon } from '@radix-ui/react-icons';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
-import KeyIcon from '@heroicons/react/24/outline/KeyIcon';
 import { useRecoilCallback } from 'recoil';
 import { addTableNodeColumnCallback } from '@/store/editor';
 import { TTableColumn } from '@/@types/nodes';
-
-const ICON_PROPS = {
-  className: 'w-4 h-4 mr-1',
-};
-
-const OPTIONS = [
-  {
-    label: 'Identifiers',
-    items: [
-      {
-        label: 'UUID',
-        value: ColumnTypeEnum.UUID,
-        icon: <KeyIcon {...ICON_PROPS} />,
-      },
-    ],
-  },
-  {
-    label: 'Texts',
-    items: [
-      {
-        label: 'varchar',
-        value: ColumnTypeEnum.VARCHAR,
-        icon: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
-      },
-      {
-        label: 'char',
-        value: ColumnTypeEnum.CHAR,
-        icon: <LetterCaseCapitalizeIcon {...ICON_PROPS} />,
-      },
-    ],
-  },
-];
+import { COLUMNS_GROUP_MAP } from '@/data/editor';
 
 interface IInsertColumnProps {
   tableId: string;
@@ -64,7 +31,7 @@ export const InsertColumn: FC<IInsertColumnProps> = ({
     await addTableNodeColumnCallback(recoil, tableId, {
       name: 'New column',
       type: selectedType as ColumnTypeEnum,
-      required: true
+      required: true,
     } as TTableColumn);
   });
 
@@ -75,14 +42,16 @@ export const InsertColumn: FC<IInsertColumnProps> = ({
           <SelectValue placeholder="Select column type" />
         </SelectTrigger>
         <SelectContent>
-          {OPTIONS.map((group) => (
+          {COLUMNS_GROUP_MAP.map((group) => (
             <SelectGroup key={group.label}>
               <SelectLabel>{group.label}</SelectLabel>
 
               {group.items.map((item) => (
                 <SelectItem key={item.value} value={item.value}>
                   <div className="flex items-center">
-                    {item.icon}
+                    {createElement(item.icon, {
+                      className: 'w-4 h-4 mr-1',
+                    })}
                     <span>{item.label}</span>
                   </div>
                 </SelectItem>
