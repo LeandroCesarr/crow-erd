@@ -1,13 +1,13 @@
-import { Node, XYPosition } from "reactflow";
-import { TABLE_NODE_TYPE } from "@/components/editor/erd/nodes/TableNode";
-import { TBaseNodeProps, TTableEdgeProps } from "@/@types/nodes";
+import { XYPosition } from "reactflow";
+import { TTableEdgeProps, TTableNode } from "@/@types/nodes";
 import { DEFAULT_EDGE_DATA } from "@/data/editor";
 import { EdgeTypeEnum } from "@/enums/EdgeTypeEnum";
+import { NodeTypeEnum } from "@/enums/NodeTypeEnum";
 
-export function createNode<T extends TBaseNodeProps>(type: string, id: string, position?: XYPosition, data?: T) : Node {
+export function createNode(type: string, id: string, position?: XYPosition, data?: any) : TTableNode {
   return {
     id,
-    type: TABLE_NODE_TYPE,
+    type: NodeTypeEnum.TABLE,
     data,
     position: {
       x: position?.x ?? 0,

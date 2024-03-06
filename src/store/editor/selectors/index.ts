@@ -46,13 +46,13 @@ export const nodeSelector = selectorFamily({
     ({ get }) => {
       const nodes = get(nodesAtom);
 
-      return nodes.find(({ id }) => id === nodeId) ?? ({} as Node);
+      return nodes.find(({ id }) => id === nodeId) ?? ({} as TTableNode);
     },
   set:
     (nodeId: string) =>
     ({ set }, newValue) => {
       set(nodesAtom, (nodes) =>
-        updateNodeListItemSetter(nodes, nodeId, newValue as Node)
+        updateNodeListItemSetter(nodes, nodeId, newValue as TTableNode)
       );
     },
 });

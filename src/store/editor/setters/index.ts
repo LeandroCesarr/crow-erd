@@ -1,5 +1,5 @@
 import { Edge, Node } from "reactflow";
-import { TBaseNodeProps, TTableColumn } from "@/@types/nodes";
+import { TBaseNodeProps, TTableColumn, TTableNode } from "@/@types/nodes";
 import { RecoilState } from "recoil";
 import { showElementsIdAtom } from "..";
 
@@ -15,7 +15,7 @@ export function updateEdgeListItemSetter(edges: Edge[], edgeId: string, data: Ed
   })
 }
 
-export function updateNodeListItemSetter(nodes: Node[], nodeId: string, data: Node) : Node[] {
+export function updateNodeListItemSetter(nodes: TTableNode[], nodeId: string, data: TTableNode) : TTableNode[] {
   return nodes.map((node) => {
     if (node.id == nodeId) {
       return data
@@ -25,7 +25,7 @@ export function updateNodeListItemSetter(nodes: Node[], nodeId: string, data: No
   })
 }
 
-export function updateNodeDataSetter<T extends TBaseNodeProps>(node: Node, data: Partial<T>) : Node {
+export function updateNodeDataSetter<T extends TBaseNodeProps>(node: TTableNode, data: Partial<T>) : TTableNode {
   return {
     ...node,
     data: {
