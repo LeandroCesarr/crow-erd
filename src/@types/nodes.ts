@@ -2,6 +2,7 @@ import { EdgeProps, Node, NodeProps } from 'reactflow';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
+import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 
 export type TBaseNodeProps = {
   title: string;
@@ -25,7 +26,7 @@ export type TTableProps = TBaseNodeProps & {
 
 export type TTableNodeProps = NodeProps<TTableProps>;
 
-export type TTableNode = Node<TTableProps>;
+export type TTableNode = Node<TTableProps, NodeTypeEnum.TABLE>;
 
 export type TTableEdgeData = {
   sourceRelation?: ColumnRelationsEnum,

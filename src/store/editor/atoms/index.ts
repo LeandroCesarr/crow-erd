@@ -3,38 +3,49 @@ import { Edge } from "reactflow";
 import { syncLocalStorageEffect } from "@/store/utils";
 import { TTableEdgeData, TTableNode } from "@/@types/nodes";
 import { ColumnTypeEnum } from "@/enums/ColumnTypeEnum";
+import { NodeTypeEnum } from "@/enums/NodeTypeEnum";
+import { ColumnKeyTypeEnum } from "@/enums/ColumnKeyTypeEnum";
 
 export const nodesAtom = atom<TTableNode[]>({
   key: "nodes",
   default: [
     {
-      type: "table",
-      id: "A1",
+      type: NodeTypeEnum.TABLE,
+      id: "T1",
       position: { x: 0, y: 0 },
       data: {
         title: "Source table",
         columns: [
           {
-            id: "A1",
+            id: "C1",
             name: "source",
             type: ColumnTypeEnum.UUID,
-            required: true
+            required: true,
+            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
           }
         ]
       }
     },
     {
-      type: "table",
-      id: "B1",
+      type: NodeTypeEnum.TABLE,
+      id: "T2",
       position: { x: 300, y: 300 },
       data: {
         title: "Source table",
         columns: [
           {
-            id: "B1",
-            name: "source",
+            id: "C1",
+            name: "id",
             type: ColumnTypeEnum.UUID,
-            required: true
+            required: true,
+            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+          },
+          {
+            id: "C2",
+            name: "foreign_key",
+            type: ColumnTypeEnum.UUID,
+            required: true,
+            keyType: ColumnKeyTypeEnum.FOREIGN_KEY
           }
         ]
       }

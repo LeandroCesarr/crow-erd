@@ -1,8 +1,8 @@
 import { addEdge } from "reactflow";
 import { CallbackInterface } from "recoil"
+import { EdgeTypeEnum } from "@/enums/EdgeTypeEnum";
+import { createEdge, edgesAtom, nodeColumnSelector, nodeSelector } from "@/store/editor";
 import { ArgumentsEnum, CommandsEnum, TParsedCommand } from "./source/data";
-import { edgesAtom, nodeColumnSelector, nodeSelector } from "@/store/editor";
-import { ColumnRelationsEnum } from "@/enums/ColumnRelationsEnum";
 
 export async function handleConnectCommand(recoil: CallbackInterface, command: TParsedCommand): Promise<void> {
   const args = command.arguments as [ArgumentsEnum.Path, ArgumentsEnum.Path]
@@ -15,18 +15,13 @@ export async function handleConnectCommand(recoil: CallbackInterface, command: T
     })),
   })))
 
-  const edgeToCreate = {
-    animates: true,
-    type: "table-edge",
-    source: source.node.id,
-    sourceHandle: `${source.node.id}-${source.column.id}-source`,
-    target: target.node.id,
-    targetHandle: `${target.node.id}-${target.column.id}-target`,
-    data: {
-      sourceRelation: ColumnRelationsEnum.ONE,
-      targetRelation: ColumnRelationsEnum.ONE,
-    }
-  }
+  const edgeToCreate = createEdge({
+    type: EdgeTypeEnum.TABLE,
+    sourceNodeId: source.node.id,
+    sourceColumnId: source.column.id,
+    targetNodeId: target.node.id,
+    targetColumnId: target.column.id
+  });
 
   recoil.set(edgesAtom, (eds) => addEdge(edgeToCreate, eds))
 }
