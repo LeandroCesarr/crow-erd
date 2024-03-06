@@ -7,6 +7,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   Panel,
+  ReactFlowProvider,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
@@ -53,29 +54,31 @@ export const ErdEditor: FC = () => {
   );
 
   return (
-    <div style={{ height: '100%' }}>
-      <ReactFlow
-        edges={edges}
-        nodes={nodes}
-        nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        defaultEdgeOptions={edgeOptions}
-        edgeTypes={edgeTypes}
-      >
-        <Background />
-        <Controls />
-        <MiniMap nodeColor="var(--muted)" maskColor="rgb(0, 0, 0, 0.3)" />
-        <Panel position="top-right">
-          <ActionsPanel />
-        </Panel>
+    <ReactFlowProvider>
+      <div style={{ height: '100%' }}>
+        <ReactFlow
+          edges={edges}
+          nodes={nodes}
+          nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          defaultEdgeOptions={edgeOptions}
+          edgeTypes={edgeTypes}
+        >
+          <Background />
+          <Controls />
+          <MiniMap nodeColor="var(--muted)" maskColor="rgb(0, 0, 0, 0.3)" />
+          <Panel position="top-right">
+            <ActionsPanel />
+          </Panel>
 
-        <Markers />
-      </ReactFlow>
+          <Markers />
+        </ReactFlow>
 
-      <CommandsDialog />
-      <CommandLineDialog />
-    </div>
+        <CommandsDialog />
+        <CommandLineDialog />
+      </div>
+    </ReactFlowProvider>
   );
 };
