@@ -15,6 +15,7 @@ import { Markers } from './edges/Markers';
 import { NODES_MAP } from './nodes';
 import { EDGES_MAP, EDGE_DEFAULT_PROPS } from './edges';
 import { useEditor } from '@/hooks/useEditor';
+import { EdgeOptionsDialog } from './dialogs/EdgeOptionsDialog';
 
 export const ErdEditor: FC = () => {
   const editorProps = useEditor();
@@ -38,6 +39,7 @@ export const ErdEditor: FC = () => {
 
         <CommandsDialog />
         <CommandLineDialog />
+        <EdgeOptionsDialog />
       </div>
     </ReactFlowProvider>
   );

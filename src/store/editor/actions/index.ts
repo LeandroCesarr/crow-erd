@@ -1,4 +1,4 @@
-import { TTableColumn, TTableProps } from '@/@types/nodes';
+import { TBaseNode, TTableColumn, TTableNode, TTableProps } from '@/@types/nodes';
 import { updateNodeDataSetter } from '../setters';
 import { CallbackInterface } from 'recoil';
 import { lastNodeColumnIdSelector, nodeSelector } from '..';
@@ -13,7 +13,7 @@ export async function addTableNodeColumnCallback(
   const currentLastId = await recoil.snapshot.getPromise(lastNodeColumnIdSelector(nodeId));
   const newId = `C${currentLastId + 1}`;
 
-  recoil.set(nodeSelector(nodeId), (node) => updateNodeDataSetter<TTableProps>(node, {
+  recoil.set(nodeSelector(nodeId), (node) => updateNodeDataSetter<TTableProps>(node as TBaseNode, {
     columns: [
       ...node.data.columns,
       {
@@ -21,6 +21,5 @@ export async function addTableNodeColumnCallback(
         id: newId
       }
     ]
-  }))
-  ;
+  }) as TTableNode);
 }

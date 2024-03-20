@@ -2,8 +2,6 @@ import React, { FC } from 'react';
 import { TableIcon } from '@radix-ui/react-icons';
 import { CommandItem } from '@/components/ui/command';
 import { useNode } from '@/hooks/useNode';
-import { TTableProps } from '@/@types/nodes';
-import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 
 interface IInsertTableCommandProps {
   onExecute?: () => void;
@@ -15,7 +13,7 @@ export const InsertTableCommand: FC<IInsertTableCommandProps> = ({
   const { createNode } = useNode();
 
   function handleCreateTable() {
-    createNode<TTableProps>(NodeTypeEnum.TABLE, {
+    createNode({
       title: "Empty table",
       columns: []
     });

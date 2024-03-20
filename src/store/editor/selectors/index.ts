@@ -7,8 +7,9 @@ import {
   updateNodeDataSetter,
   updateNodeListItemSetter,
 } from '@/store/editor';
-import { Edge, Node } from 'reactflow';
+import { Edge } from 'reactflow';
 import {
+  TBaseNode,
   TTableColumn,
   TTableEdgeData,
   TTableNode,
@@ -46,13 +47,19 @@ export const nodeSelector = selectorFamily({
     ({ get }) => {
       const nodes = get(nodesAtom);
 
-      return nodes.find(({ id }) => id === nodeId) ?? ({} as Node);
+      return nodes.find(({ id }) => id === nodeId) ?? ({} as TTableNode);
     },
   set:
     (nodeId: string) =>
     ({ set }, newValue) => {
-      set(nodesAtom, (nodes) =>
-        updateNodeListItemSetter(nodes, nodeId, newValue as Node)
+      set(
+        nodesAtom,
+        (nodes) =>
+          updateNodeListItemSetter(
+            nodes as TBaseNode[],
+            nodeId,
+            newValue as TBaseNode
+          ) as TTableNode[]
       );
     },
 });
@@ -69,8 +76,12 @@ export const nodeTitleSelector = selectorFamily({
   set:
     (nodeId: string) =>
     ({ set }, newValue) =>
-      set(nodeSelector(nodeId), (node) =>
-        updateNodeDataSetter(node, { title: newValue as string })
+      set(
+        nodeSelector(nodeId),
+        (node) =>
+          updateNodeDataSetter(node as TBaseNode, {
+            title: newValue as string,
+          }) as TTableNode
       ),
 });
 
@@ -86,8 +97,12 @@ export const nodeDescriptionSelector = selectorFamily({
   set:
     (nodeId: string) =>
     ({ set }, newValue) =>
-      set(nodeSelector(nodeId), (node) =>
-        updateNodeDataSetter(node, { description: newValue as string })
+      set(
+        nodeSelector(nodeId),
+        (node) =>
+          updateNodeDataSetter(node as TBaseNode, {
+            description: newValue as string,
+          }) as TTableNode
       ),
 });
 
@@ -109,29 +124,27 @@ export const nodeColumnSelector = selectorFamily({
     ({ nodeId, columnId }: TNodeColumnSelectorProps) =>
     ({ set }, newValue) =>
       set(nodeSelector(nodeId), (node) => {
-        return updateNodeDataSetter<TTableProps>(node, {
+        return updateNodeDataSetter<TTableProps>(node as TBaseNode, {
           columns: updateNodeColumnsSetter(
             node.data.columns,
             columnId,
             newValue as TTableColumn
           ),
-        });
+        }) as TTableNode;
       }),
 });
 
 export const lastNodeIdSelector = selector({
   key: 'lastNodeId',
-  get:
-    ({ get }) => {
-      const nodes = get(nodesAtom);
+  get: ({ get }) => {
+    const nodes = get(nodesAtom);
 
-      return Math.max(
-        0,
-        ...nodes.map((node) => Number.parseInt(node.id.replace(/\D/g, '')))
-      );
-    },
+    return Math.max(
+      0,
+      ...nodes.map((node) => Number.parseInt(node.id.replace(/\D/g, '')))
+    );
+  },
 });
-
 
 export const lastNodeColumnIdSelector = selectorFamily({
   key: 'lastNodeId',
@@ -142,7 +155,9 @@ export const lastNodeColumnIdSelector = selectorFamily({
 
       return Math.max(
         0,
-        ...node.data.columns.map((column) => Number.parseInt(column.id.replace(/\D/g, '')))
+        ...node.data.columns.map((column) =>
+          Number.parseInt(column.id.replace(/\D/g, ''))
+        )
       );
     },
 });

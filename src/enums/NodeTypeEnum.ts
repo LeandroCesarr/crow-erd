@@ -1,3 +1,4 @@
 export enum NodeTypeEnum {
-  TABLE = "table-node"
+  TABLE = "table-node",
+  DEFAULT = "default",
 }
