@@ -75,3 +75,9 @@ export const showElementsIdAtom = atom<boolean>({
   default: true,
   effects: [syncLocalStorageEffect()]
 })
+
+export const currentEdgeIdAtom = atom<string>({
+  key: "currentEdgeId",
+  default: "",
+  effects: [syncLocalStorageEffect()]
+})

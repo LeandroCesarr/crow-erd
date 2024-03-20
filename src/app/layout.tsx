@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <RecoilProvider>
           <ThemeProvider>{children}</ThemeProvider>

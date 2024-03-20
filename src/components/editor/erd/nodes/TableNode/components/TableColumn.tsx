@@ -4,7 +4,7 @@ import { Handle, Position } from 'reactflow';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
-import { nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
+import { createHandleId, nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
 import { COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
 
@@ -24,7 +24,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
   );
 
   const columnTypeInfo = useMemo(() => {
-    return COLUMNS_MAP.get(column.type)!;
+    return COLUMNS_MAP.get(column.type);
   }, [column.type]);
 
   const { inputProps, isEditing } = useDoubleClickInput({
@@ -71,12 +71,12 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
           'text-green-500': column.required,
         })}
       >
-        {createElement(columnTypeInfo.icon as any, {
+        {columnTypeInfo?.icon && createElement(columnTypeInfo.icon as any, {
           className: 'w-4 h-4 shrink-0',
         })}
 
         <span className="ml-2 text-muted-foreground">
-          {columnTypeInfo.label}
+          {columnTypeInfo?.label}
         </span>
       </div>
 
@@ -95,7 +95,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         />
       </div>
 
-      {columnTypeInfo.hasValue ? (
+      {columnTypeInfo?.hasValue ? (
         <div className="w-32">
           <input
             placeholder="Value"
@@ -121,7 +121,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="source"
         position={Position.Left}
-        id={`${nodeId}-${column.id}-source`}
+        id={createHandleId(nodeId, column.id, "source")}
       />
 
       <Handle
@@ -130,7 +130,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="target"
         position={Position.Right}
-        id={`${nodeId}-${column.id}-target`}
+        id={createHandleId(nodeId, column.id, "target")}
       />
     </div>
   );

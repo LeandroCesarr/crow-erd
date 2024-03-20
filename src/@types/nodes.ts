@@ -4,6 +4,8 @@ import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 
+export type TBaseNode<D = any, T extends NodeTypeEnum = NodeTypeEnum.DEFAULT> = Node<D, T>;
+
 export type TBaseNodeProps = {
   title: string;
   description?: string;
@@ -26,9 +28,10 @@ export type TTableProps = TBaseNodeProps & {
 
 export type TTableNodeProps = NodeProps<TTableProps>;
 
-export type TTableNode = Node<TTableProps, NodeTypeEnum.TABLE>;
+export type TTableNode = TBaseNode<TTableProps, NodeTypeEnum.TABLE>;
 
 export type TTableEdgeData = {
+  title?: string;
   sourceRelation?: ColumnRelationsEnum,
   targetRelation?: ColumnRelationsEnum,
 }
