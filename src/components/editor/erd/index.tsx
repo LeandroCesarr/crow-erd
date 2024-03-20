@@ -21,8 +21,9 @@ export const ErdEditor: FC = () => {
 
   return (
     <ReactFlowProvider>
-      <div style={{ height: '100%' }}>
+      <div className='h-full'>
         <ReactFlow
+          fitView
           nodeTypes={NODES_MAP}
           edgeTypes={EDGES_MAP}
           defaultEdgeOptions={EDGE_DEFAULT_PROPS}
