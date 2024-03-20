@@ -15,8 +15,6 @@ import { TableDescription } from './components/TableDescription';
 import { useRecoilValue } from 'recoil';
 import { showElementsIdAtom } from '@/store/editor';
 
-export const TABLE_NODE_TYPE = 'table';
-
 export const TableNode = ({
   data,
   id,
