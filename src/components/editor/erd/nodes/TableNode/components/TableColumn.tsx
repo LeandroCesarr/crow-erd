@@ -24,7 +24,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
   );
 
   const columnTypeInfo = useMemo(() => {
-    return COLUMNS_MAP.get(column.type)!;
+    return COLUMNS_MAP.get(column.type);
   }, [column.type]);
 
   const { inputProps, isEditing } = useDoubleClickInput({
@@ -71,12 +71,12 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
           'text-green-500': column.required,
         })}
       >
-        {createElement(columnTypeInfo.icon as any, {
+        {columnTypeInfo?.icon && createElement(columnTypeInfo.icon as any, {
           className: 'w-4 h-4 shrink-0',
         })}
 
         <span className="ml-2 text-muted-foreground">
-          {columnTypeInfo.label}
+          {columnTypeInfo?.label}
         </span>
       </div>
 
@@ -95,7 +95,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         />
       </div>
 
-      {columnTypeInfo.hasValue ? (
+      {columnTypeInfo?.hasValue ? (
         <div className="w-32">
           <input
             placeholder="Value"
