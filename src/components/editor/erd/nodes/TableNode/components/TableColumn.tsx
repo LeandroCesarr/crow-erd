@@ -4,7 +4,7 @@ import { Handle, Position } from 'reactflow';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
-import { nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
+import { createHandleId, nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
 import { COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
 
@@ -121,7 +121,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="source"
         position={Position.Left}
-        id={`${nodeId}-${column.id}-source`}
+        id={createHandleId(nodeId, column.id, "source")}
       />
 
       <Handle
@@ -130,7 +130,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="target"
         position={Position.Right}
-        id={`${nodeId}-${column.id}-target`}
+        id={createHandleId(nodeId, column.id, "target")}
       />
     </div>
   );

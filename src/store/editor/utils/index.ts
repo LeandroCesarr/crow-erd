@@ -28,14 +28,18 @@ interface ICreateNodeProps {
 export function createEdge({ type, sourceNodeId, sourceColumnId, targetNodeId, targetColumnId, data }: ICreateNodeProps) {
   return {
     animates: true,
-    type: "table-edge",
+    type,
     source: sourceNodeId,
-    sourceHandle: `${sourceNodeId}-${sourceColumnId}-source`,
+    sourceHandle: sourceColumnId,
     target: targetNodeId,
-    targetHandle: `${targetNodeId}-${targetColumnId}-target`,
+    targetHandle: targetColumnId,
     data: {
       ...DEFAULT_EDGE_DATA,
       ...(data ?? {})
     }
   }
+}
+
+export function createHandleId(tableId: string, columnId: string, type: "source" | "target") {
+  return `${tableId}-${columnId}-${type}`
 }
