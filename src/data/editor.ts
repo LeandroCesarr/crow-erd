@@ -1,7 +1,9 @@
 import { TTableEdgeData } from '@/@types/nodes';
 import { ColumnGroupEnum } from '@/enums/ColumnGroupEnum';
+import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
+import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 import {
   BanknotesIcon,
   BugAntIcon,
@@ -184,3 +186,50 @@ export const COLUMNS_GROUP_MAP: TColumnInfoGroup[] = Object.values(
     return acc;
   }, {} as Record<ColumnGroupEnum,TColumnInfoGroup>)
 );
+
+export const DEFAULT_DATA = {
+  nodes: [
+    {
+      type: NodeTypeEnum.TABLE,
+      id: "T1",
+      position: { x: 0, y: 0 },
+      data: {
+        title: "Source table",
+        columns: [
+          {
+            id: "C1",
+            name: "source",
+            type: ColumnTypeEnum.UUID,
+            required: true,
+            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+          }
+        ]
+      }
+    },
+    {
+      type: NodeTypeEnum.TABLE,
+      id: "T2",
+      position: { x: 300, y: 300 },
+      data: {
+        title: "Source table",
+        columns: [
+          {
+            id: "C1",
+            name: "id",
+            type: ColumnTypeEnum.UUID,
+            required: true,
+            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+          },
+          {
+            id: "C2",
+            name: "foreign_key",
+            type: ColumnTypeEnum.UUID,
+            required: true,
+            keyType: ColumnKeyTypeEnum.FOREIGN_KEY
+          }
+        ]
+      }
+    }
+  ],
+  edges: []
+}

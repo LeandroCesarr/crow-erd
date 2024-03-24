@@ -13,6 +13,7 @@ import { commandsDialogAtom } from '@/store/editor';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { NodeCommands } from '../commands/nodes/NodeCommands';
 import { ConfigurationCommands } from '@/components/common/commands/ConfigurationCommands';
+import { EditorCommands } from '../commands/nodes/EditorCommands';
 
 export const CommandsDialog: FC = (): JSX.Element => {
   const [open, setOpen] = useRecoilState(commandsDialogAtom);
@@ -30,6 +31,7 @@ export const CommandsDialog: FC = (): JSX.Element => {
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <NodeCommands onExecute={handleExecuteCommand} />
+              <EditorCommands onExecute={handleExecuteCommand} />
               <ConfigurationCommands onExecute={handleExecuteCommand} />
               <CommandSeparator />
             </CommandList>
