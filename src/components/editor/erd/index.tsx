@@ -1,7 +1,7 @@
 'use client';
 
 import 'reactflow/dist/style.css';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import ReactFlow, {
   Background,
   Controls,
@@ -16,13 +16,31 @@ import { NODES_MAP } from './nodes';
 import { EDGES_MAP, EDGE_DEFAULT_PROPS } from './edges';
 import { useEditor } from '@/hooks/useEditor';
 import { EdgeOptionsDialog } from './dialogs/EdgeOptionsDialog';
+import { useParams, useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { loadedFileIdAtom } from '@/store/editor';
+import { PagesEnum } from '@/enums/PagesEnum';
+import classNames from 'classnames';
 
 export const ErdEditor: FC = () => {
   const editorProps = useEditor();
+  const params = useParams();
+  const { replace } = useRouter();
+  const loadedFileId = useRecoilValue(loadedFileIdAtom);
+
+  useEffect(() => {
+    if (params.id != loadedFileId) {
+      void replace(PagesEnum.HOME);
+    }
+  }, [params, loadedFileId]);
 
   return (
     <ReactFlowProvider>
-      <div className='h-full'>
+      <div
+        className={classNames('h-full', {
+          hidden: params.id != loadedFileId,
+        })}
+      >
         <ReactFlow
           fitView
           nodeTypes={NODES_MAP}

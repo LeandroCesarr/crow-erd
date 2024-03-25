@@ -1,20 +1,30 @@
+import { v4 as uuid } from "uuid";
 import { useRecoilCallback } from 'recoil';
 import { ChangeEvent, useState } from 'react';
 import { editorFileSchema } from '@/schemas/editorFileSchema';
-import { edgesAtom, hasLoadedDataAtom, nodesAtom } from '@/store/editor';
+import { edgesAtom, loadedFileIdAtom, nodesAtom } from '@/store/editor';
 import { useRouter } from 'next/navigation';
 import { PagesEnum } from '@/enums/PagesEnum';
 import { DEFAULT_DATA } from '@/data/editor';
+import { populateRouteParams } from "@/utils/routes";
 
 export function useEditorFile() {
   const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const fillFileData = useRecoilCallback((recoil) => (data: any) => {
+    const id = uuid();
+
     recoil.set(nodesAtom, data.nodes);
     recoil.set(edgesAtom, data.edges);
-    recoil.set(hasLoadedDataAtom, true);
+    recoil.set(loadedFileIdAtom, id);
+
+    return id
   });
+
+  function navigateToEditor(id: string) {
+    push(populateRouteParams(PagesEnum.EDITOR, { id }));
+  }
 
   async function processFile(file: File) {
     const rawValue = await file.text();
@@ -27,8 +37,8 @@ export function useEditorFile() {
         throw validationResult;
       }
 
-      fillFileData(parsedValue);
-      push(PagesEnum.EDITOR);
+      const fileId = fillFileData(parsedValue);
+      navigateToEditor(fileId)
     } catch (error) {
       alert("Error on load file");
     }
@@ -49,11 +59,11 @@ export function useEditorFile() {
   function createNew() {
     setIsLoading(true);
 
-    fillFileData(DEFAULT_DATA)
+    const fileId = fillFileData(DEFAULT_DATA)
 
     setIsLoading(false);
 
-    push(PagesEnum.EDITOR);
+    navigateToEditor(fileId)
   }
 
   return {

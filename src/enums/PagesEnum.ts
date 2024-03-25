@@ -1,4 +1,4 @@
 export enum PagesEnum {
   HOME = "/",
-  EDITOR = "/editor/"
+  EDITOR = "/editor/[id]"
 }

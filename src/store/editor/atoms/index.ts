@@ -15,9 +15,9 @@ export const edgesAtom = atom<Edge<TTableEdgeData>[]>({
   // effects: [syncLocalStorageEffect()]
 })
 
-export const hasLoadedDataAtom = atom({
-  key: "hasLoadedData",
-  default: false
+export const loadedFileIdAtom = atom({
+  key: "loadedFileId",
+  default: ""
 })
 
 export const commandsDialogAtom = atom({
