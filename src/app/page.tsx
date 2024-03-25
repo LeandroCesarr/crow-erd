@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function Page(): JSX.Element {
   return (
-    <main className="h-screen bg-background text-foreground flex flex-col justify-center items-center overflow-hidden bg-[url(/bg.jpg)] bg-cover ">
-      <div className="max-w-[800px] max-h-[600px] h-full w-full grid grid-cols-2 border border-border items-stretch rounded-md overflow-hidden bg-background">
-        <div className="bg-muted p-10 text-white flex flex-col justify-between">
+    <main className="h-screen bg-background text-foreground flex flex-col justify-center items-center overflow-hidden bg-[url(/bg.jpg)] bg-cover p-6">
+      <div className="max-w-[50rem] sm:max-h-[37.5rem] sm:h-full w-full grid sm:grid-cols-2 border border-border items-stretch rounded-md overflow-auto bg-background">
+        <div className="bg-muted p-10 dark:text-white  flex flex-col justify-between">
           <div className="relative z-20 flex items-center text-lg font-medium">
             <CrowIcon className="mr-2 h-10 w-10 fill-current" />
             Crow ERD
@@ -34,14 +34,14 @@ export default function Page(): JSX.Element {
               Start organizing your diagrams like a developer
             </h1>
 
-            <div className="mt-10 flex justify-center gap-3">
+            <div className="mt-10 flex justify-center gap-3 flex-col sm:flex-row">
               <NewDiagramCreator />
               <EditorFileLoader />
             </div>
           </div>
 
           <small
-            className="absolute right-4 bottom-4"
+            className="absolute right-2 bottom-2"
           >
             Version: {packageJSON.version}
           </small>
