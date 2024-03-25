@@ -5,12 +5,11 @@ import {
   BaseEdge,
   EdgeLabelRenderer,
   Position,
-  getSmoothStepPath,
-  useReactFlow,
+  getSmoothStepPath
 } from 'reactflow';
 import { Button } from '@/components/ui/button';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentEdgeIdAtom, edgeSelector } from '@/store/editor';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import { currentEdgeIdAtom, edgeSelector, removeEdgeCallback } from '@/store/editor';
 
 export const TableEdge: FC<TTableEdgeProps> = ({
   id,
@@ -22,7 +21,6 @@ export const TableEdge: FC<TTableEdgeProps> = ({
 }) => {
   const setCurrentEdgeId = useSetRecoilState(currentEdgeIdAtom);
   const edge = useRecoilValue(edgeSelector(id));
-  const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getSmoothStepPath({
     sourceX,
     sourceY,
@@ -31,6 +29,12 @@ export const TableEdge: FC<TTableEdgeProps> = ({
     sourcePosition: Position.Left,
     targetPosition: Position.Right,
   });
+
+  const removeEdge = useRecoilCallback(removeEdgeCallback)
+
+  function handleRemoveEdge() {
+    removeEdge(id)
+  }
 
   function handleOpenOptions() {
     setCurrentEdgeId(id);
@@ -64,20 +68,18 @@ export const TableEdge: FC<TTableEdgeProps> = ({
                 variant="outline"
                 size="icon"
                 className="rounded-none border-0"
-                onClick={() =>
-                  setEdges((edges) => edges.filter((e) => e.id !== id))
-                }
+                onClick={handleOpenOptions}
               >
-                <Cross1Icon />
+                <MixerHorizontalIcon />
               </Button>
 
               <Button
                 variant="outline"
                 size="icon"
                 className="rounded-none border-0"
-                onClick={handleOpenOptions}
+                onClick={handleRemoveEdge}
               >
-                <MixerHorizontalIcon />
+                <Cross1Icon />
               </Button>
             </div>
           ) : null}

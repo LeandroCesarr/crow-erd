@@ -44,3 +44,9 @@ export function getEditorDataCallback(recoil: CallbackInterface) {
     edges: await recoil.snapshot.getPromise(edgesAtom),
   });
 }
+
+export function removeEdgeCallback(recoil: CallbackInterface) {
+  return async (id: string) => {
+    recoil.set(edgesAtom, (old) => old.filter((edge) => edge.id != id));
+  };
+}
