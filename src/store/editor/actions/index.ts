@@ -7,6 +7,7 @@ import {
 import { updateNodeDataSetter } from '../setters';
 import { CallbackInterface } from 'recoil';
 import {
+  currentDialogPageAtom,
   edgesAtom,
   lastNodeColumnIdSelector,
   nodeSelector,
@@ -48,5 +49,12 @@ export function getEditorDataCallback(recoil: CallbackInterface) {
 export function removeEdgeCallback(recoil: CallbackInterface) {
   return async (id: string) => {
     recoil.set(edgesAtom, (old) => old.filter((edge) => edge.id != id));
+  };
+}
+
+
+export function changeCommandDialogPageCallback(recoil: CallbackInterface) {
+  return async (page: string) => {
+    recoil.set(currentDialogPageAtom, page);
   };
 }

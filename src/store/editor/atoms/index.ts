@@ -2,6 +2,7 @@ import { atom } from "recoil";
 import { Edge } from "reactflow";
 import { syncLocalStorageEffect } from "@/store/utils";
 import { TTableEdgeData, TTableNode } from "@/@types/nodes";
+import { COMMAND_DIALOG_ROOT_PAGE } from "@/data/editor";
 
 export const nodesAtom = atom<TTableNode[]>({
   key: "nodes",
@@ -18,11 +19,6 @@ export const edgesAtom = atom<Edge<TTableEdgeData>[]>({
 export const loadedFileIdAtom = atom({
   key: "loadedFileId",
   default: ""
-})
-
-export const commandsDialogAtom = atom({
-  key: "commandsDialog",
-  default: false
 })
 
 export const commandLineDialogAtom = atom({
@@ -46,4 +42,14 @@ export const currentTableIdAtom = atom<string>({
   key: "currentTableId",
   default: "",
   // effects: [syncLocalStorageEffect()]
+})
+
+export const commandsDialogAtom = atom({
+  key: "commandsDialog",
+  default: false
+})
+
+export const currentDialogPageAtom = atom({
+  key: "currentDialogPage",
+  default: COMMAND_DIALOG_ROOT_PAGE
 })

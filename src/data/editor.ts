@@ -31,6 +31,8 @@ type TColumnInfo = {
   hasValue: boolean
 }
 
+export const COMMAND_DIALOG_ROOT_PAGE = "ROOT";
+
 export const COLUMNS_MAP = new Map<ColumnTypeEnum, TColumnInfo>([
   [
     ColumnTypeEnum.UUID,

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { FC } from 'react';
-import { useRecoilState } from 'recoil';
+import React, { FC, KeyboardEvent, useEffect, useState } from 'react';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import {
   Command,
   CommandEmpty,
@@ -9,31 +9,70 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command';
-import { commandsDialogAtom } from '@/store/editor';
+import {
+  changeCommandDialogPageCallback,
+  commandsDialogAtom,
+  currentDialogPageAtom,
+} from '@/store/editor';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { NodeCommands } from '../commands/nodes/NodeCommands';
 import { ConfigurationCommands } from '@/components/common/commands/ConfigurationCommands';
 import { EditorCommands } from '../commands/nodes/EditorCommands';
+import { CommandsPageWrapper } from '@/components/common/commands/CommandsPageWrapper';
+import { COMMAND_DIALOG_ROOT_PAGE } from '@/data/editor';
 
 export const CommandsDialog: FC = (): JSX.Element => {
+  const [search, setSearch] = useState('');
+  const currentPage = useRecoilValue(currentDialogPageAtom);
   const [open, setOpen] = useRecoilState(commandsDialogAtom);
+
+  const changeCommandDialogPage = useRecoilCallback(
+    changeCommandDialogPageCallback
+  );
+
+  function handleCommandKeyDown(e: KeyboardEvent) {
+    if (currentPage === COMMAND_DIALOG_ROOT_PAGE) return;
+
+    if (e.key === 'Escape' || (e.key === 'Backspace' && !search)) {
+      e.preventDefault();
+      changeCommandDialogPage(COMMAND_DIALOG_ROOT_PAGE);
+    }
+  }
 
   function handleExecuteCommand() {
     setOpen(false);
   }
 
+  useEffect(() => {
+    if (currentPage !== COMMAND_DIALOG_ROOT_PAGE){
+      setSearch("")
+    }
+  }, [currentPage])
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <div>
-          <Command>
-            <CommandInput placeholder="Type a command. or search..." />
+          <Command onKeyDown={handleCommandKeyDown}>
+            <CommandInput
+              placeholder="Type a command. or search..."
+              value={search}
+              onValueChange={setSearch}
+            />
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
-              <NodeCommands onExecute={handleExecuteCommand} />
-              <EditorCommands onExecute={handleExecuteCommand} />
+
+              <CommandsPageWrapper page={COMMAND_DIALOG_ROOT_PAGE}>
+                <NodeCommands onExecute={handleExecuteCommand} />
+                <CommandSeparator />
+              </CommandsPageWrapper>
+
+              <CommandsPageWrapper page={COMMAND_DIALOG_ROOT_PAGE}>
+                <EditorCommands onExecute={handleExecuteCommand} />
+                <CommandSeparator />
+              </CommandsPageWrapper>
+
               <ConfigurationCommands onExecute={handleExecuteCommand} />
-              <CommandSeparator />
             </CommandList>
           </Command>
         </div>
