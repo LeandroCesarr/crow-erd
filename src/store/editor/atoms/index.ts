@@ -41,3 +41,9 @@ export const currentEdgeIdAtom = atom<string>({
   default: "",
   // effects: [syncLocalStorageEffect()]
 })
+
+export const currentTableIdAtom = atom<string>({
+  key: "currentTableId",
+  default: "",
+  // effects: [syncLocalStorageEffect()]
+})

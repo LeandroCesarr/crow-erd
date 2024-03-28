@@ -21,6 +21,7 @@ import { useRecoilValue } from 'recoil';
 import { loadedFileIdAtom } from '@/store/editor';
 import { PagesEnum } from '@/enums/PagesEnum';
 import classNames from 'classnames';
+import { TableOptionsDialog } from './dialogs/TableOptionsDialog';
 
 export const ErdEditor: FC = () => {
   const editorProps = useEditor();
@@ -58,6 +59,7 @@ export const ErdEditor: FC = () => {
         <CommandsDialog />
         <CommandLineDialog />
         <EdgeOptionsDialog />
+        <TableOptionsDialog />
       </div>
     </ReactFlowProvider>
   );
