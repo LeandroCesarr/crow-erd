@@ -58,3 +58,20 @@ export function changeCommandDialogPageCallback(recoil: CallbackInterface) {
     recoil.set(currentDialogPageAtom, page);
   };
 }
+
+export function deleteColumnCallback(nodeId: string, columnId: string) {
+  return (recoil: CallbackInterface) => async () => {
+    recoil.set(nodeSelector(nodeId), old => updateNodeDataSetter<TTableProps>(old as TBaseNode, {
+      columns: old.data.columns.filter((col) => col.id !== columnId),
+    }) as TTableNode);
+  };
+}
+
+
+export function deleteConstraintCallback(nodeId: string, constraintId: string) {
+  return (recoil: CallbackInterface) => async () => {
+    recoil.set(nodeSelector(nodeId), old => updateNodeDataSetter<TTableProps>(old as TBaseNode, {
+      constraints: old.data.constraints.filter((con) => con.id !== constraintId),
+    }) as TTableNode);
+  };
+}

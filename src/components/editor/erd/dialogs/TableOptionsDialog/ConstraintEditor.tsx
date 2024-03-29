@@ -1,6 +1,10 @@
 import React, { FC } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { nodeConstraintSelector, nodeSelector } from '@/store/editor';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
+import {
+  deleteConstraintCallback,
+  nodeConstraintSelector,
+  nodeSelector,
+} from '@/store/editor';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import {
@@ -26,6 +30,10 @@ export const ConstraintEditor: FC<IConstraintEditorProps> = ({
   const { data: table } = useRecoilValue(nodeSelector(nodeId));
   const [constraint, setConstraint] = useRecoilState(
     nodeConstraintSelector({ nodeId, constraintId })
+  );
+
+  const handleDeleteConstraint = useRecoilCallback(
+    deleteConstraintCallback(nodeId, constraintId)
   );
 
   function handleTypeChange(type: string) {
@@ -106,7 +114,9 @@ export const ConstraintEditor: FC<IConstraintEditorProps> = ({
       ) : null}
 
       <div className="flex justify-end">
-        <Button variant="destructive">Delete</Button>
+        <Button variant="destructive" onClick={handleDeleteConstraint}>
+          Delete
+        </Button>
       </div>
     </div>
   );

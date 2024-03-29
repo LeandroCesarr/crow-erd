@@ -97,10 +97,21 @@ export const nodeConstraintsSelector = selectorFamily({
     },
 });
 
+export const nodeConstraintsIdsSelector = selectorFamily({
+  key: 'nodeConstraintsIds',
+  get:
+    (nodeId: string) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+
+      return node.data?.constraints.map(({ id }) => id) ?? [];
+    },
+});
+
 type TNodeConstraintSelectorProps = { nodeId: string; constraintId: string };
 
 export const nodeConstraintSelector = selectorFamily({
-  key: 'nodeConstraints',
+  key: 'nodeConstraint',
   get:
     ({ nodeId, constraintId }: TNodeConstraintSelectorProps) =>
     ({ get }) => {
@@ -123,6 +134,18 @@ export const nodeConstraintSelector = selectorFamily({
           }) as TColumnConstraint[],
         }) as TTableNode;
       }),
+});
+
+export const nodeConstraintColumnNamesSelector = selectorFamily({
+  key: 'nodeConstraintColumnNames',
+  get:
+    ({ nodeId, constraintId }: TNodeConstraintSelectorProps) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+      const constraint = node.data?.constraints.find((c) => c.id === constraintId)!
+
+      return  constraint.columns.map((col) => get(nodeColumnSelector({ nodeId, columnId: col })).name)
+    }
 });
 
 export const nodeDescriptionSelector = selectorFamily({

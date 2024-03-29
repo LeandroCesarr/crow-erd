@@ -108,6 +108,8 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
 
       <div>
         <TableColumnConfiguration
+          nodeId={nodeId}
+          columnId={columnId}
           required={column.required}
           keyType={column.keyType}
           onKeyTypeChange={handleChangeKeyType}

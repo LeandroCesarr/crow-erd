@@ -9,12 +9,14 @@ import {
 import { CONSTRAINT_CLASSES } from '@/data/editor';
 import {
   currentTableIdAtom,
+  nodeConstraintColumnNamesSelector,
+  nodeConstraintSelector,
   nodeSelector,
   updateNodeDataSetter,
 } from '@/store/editor';
 import classNames from 'classnames';
 import React, { FC, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ConstraintEditor } from './ConstraintEditor';
 import {
   Accordion,
@@ -35,6 +37,48 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { TBaseNode, TTableNode, TTableProps } from '@/@types/nodes';
 
 interface ITableOptionsDialogProps {}
+
+interface IConstraintItemProps {
+  nodeId: string;
+  constraintId: string;
+}
+
+const ConstraintItem: FC<IConstraintItemProps> = ({
+  nodeId,
+  constraintId,
+}): JSX.Element => {
+  const constraint = useRecoilValue(
+    nodeConstraintSelector({ nodeId, constraintId })
+  );
+  const columnNames = useRecoilValue(
+    nodeConstraintColumnNamesSelector({ nodeId, constraintId })
+  );
+
+  return (
+    <AccordionItem key={constraint.id} value={constraint.id}>
+      <AccordionTrigger className='hover:no-underline'>
+        <div>
+          <Badge
+            className={classNames('w-14 justify-center', [
+              CONSTRAINT_CLASSES[constraint.type],
+            ])}
+          >
+            {constraint.type}
+          </Badge>{' '}
+          {constraint.name ? (
+            <span className="italic text-muted-foreground ml-2">
+              {constraint.name}
+            </span>
+          ) : null}
+          <span className="ml-2">{columnNames.join(', ')}</span>
+        </div>
+      </AccordionTrigger>
+      <AccordionContent>
+        <ConstraintEditor nodeId={nodeId} constraintId={constraint.id} />
+      </AccordionContent>
+    </AccordionItem>
+  );
+};
 
 export const TableOptionsDialog: FC<
   ITableOptionsDialogProps
@@ -76,33 +120,11 @@ export const TableOptionsDialog: FC<
 
           <Accordion type="single" collapsible className="w-full">
             {table.data?.constraints.map((constraint) => (
-              <AccordionItem key={constraint.id} value={constraint.id}>
-                <AccordionTrigger>
-                  <div>
-                    <Badge
-                      className={classNames('w-14 justify-center', [
-                        CONSTRAINT_CLASSES[constraint.type],
-                      ])}
-                    >
-                      {constraint.type}
-                    </Badge>{' '}
-                    {constraint.name ? (
-                      <span className="italic text-muted-foreground ml-2">
-                        {constraint.name}
-                      </span>
-                    ) : null}
-                    <span className="ml-2">
-                      {constraint.columns.join(', ')}
-                    </span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ConstraintEditor
-                    nodeId={table.id}
-                    constraintId={constraint.id}
-                  />
-                </AccordionContent>
-              </AccordionItem>
+              <ConstraintItem
+                key={constraint.id}
+                nodeId={table.id}
+                constraintId={constraint.id}
+              />
             ))}
           </Accordion>
 

@@ -219,10 +219,17 @@ export const DEFAULT_DATA = {
         columns: [
           {
             id: "C1",
-            name: "source",
+            name: "id",
             type: ColumnTypeEnum.UUID,
             required: true,
             keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+          },
+          {
+            id: "C2",
+            name: "target_id",
+            type: ColumnTypeEnum.UUID,
+            required: true,
+            keyType: ColumnKeyTypeEnum.FOREIGN_KEY
           }
         ]
       }
@@ -232,7 +239,7 @@ export const DEFAULT_DATA = {
       id: "T2",
       position: { x: 300, y: 300 },
       data: {
-        title: "Source table",
+        title: "Target table",
         constraints: [],
         columns: [
           {
@@ -242,13 +249,6 @@ export const DEFAULT_DATA = {
             required: true,
             keyType: ColumnKeyTypeEnum.PRIMARY_KEY
           },
-          {
-            id: "C2",
-            name: "foreign_key",
-            type: ColumnTypeEnum.UUID,
-            required: true,
-            keyType: ColumnKeyTypeEnum.FOREIGN_KEY
-          }
         ]
       }
     }

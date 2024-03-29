@@ -10,8 +10,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
+import { useRecoilCallback } from 'recoil';
+import { deleteColumnCallback } from '@/store/editor';
 
 interface ITableColumnConfigurationProps {
+  nodeId: string;
+  columnId: string;
   required: boolean;
   keyType?: ColumnKeyTypeEnum;
   onKeyTypeChange?: (value: ColumnKeyTypeEnum) => void;
@@ -19,11 +23,17 @@ interface ITableColumnConfigurationProps {
 }
 
 const TableColumnConfigurationComponent: FC<ITableColumnConfigurationProps> = ({
+  nodeId,
+  columnId,
   keyType,
   required,
   onKeyTypeChange,
   onRequiredChange,
 }): JSX.Element => {
+  const handleDeleteColumn = useRecoilCallback(
+    deleteColumnCallback(nodeId, columnId)
+  );
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -55,6 +65,10 @@ const TableColumnConfigurationComponent: FC<ITableColumnConfigurationProps> = ({
           onCheckedChange={onRequiredChange}
         >
           Required
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem onCheckedChange={handleDeleteColumn}>
+          Delete
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
