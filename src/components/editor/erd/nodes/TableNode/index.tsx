@@ -10,6 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { currentTableIdAtom, showElementsIdAtom } from '@/store/editor';
 import { Button } from '@/components/ui/button';
 import { Cross1Icon, MixerHorizontalIcon } from '@radix-ui/react-icons';
+import { Constraints } from './components/Constraints';
 
 export const TableNode = ({
   data,
@@ -77,6 +78,8 @@ export const TableNode = ({
           </div>
           <TableDescription tableId={id} />
         </div>
+
+        <Constraints nodeId={id} />
 
         <div className="w-full flex flex-col gap-2">
           {data.columns.map((column) => (

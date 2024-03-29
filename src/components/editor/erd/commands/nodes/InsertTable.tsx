@@ -15,7 +15,8 @@ export const InsertTableCommand: FC<IInsertTableCommandProps> = ({
   function handleCreateTable() {
     createNode({
       title: "Empty table",
-      columns: []
+      columns: [],
+      constraints: []
     });
 
     onExecute?.();

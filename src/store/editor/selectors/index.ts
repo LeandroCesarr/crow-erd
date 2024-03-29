@@ -10,6 +10,7 @@ import {
 import { Edge } from 'reactflow';
 import {
   TBaseNode,
+  TColumnConstraint,
   TTableColumn,
   TTableEdgeData,
   TTableNode,
@@ -83,6 +84,45 @@ export const nodeTitleSelector = selectorFamily({
             title: newValue as string,
           }) as TTableNode
       ),
+});
+
+export const nodeConstraintsSelector = selectorFamily({
+  key: 'nodeConstraints',
+  get:
+    (nodeId: string) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+
+      return node.data?.constraints ?? [];
+    },
+});
+
+type TNodeConstraintSelectorProps = { nodeId: string; constraintId: string };
+
+export const nodeConstraintSelector = selectorFamily({
+  key: 'nodeConstraints',
+  get:
+    ({ nodeId, constraintId }: TNodeConstraintSelectorProps) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+
+      return (
+        node.data?.constraints.find((c) => c.id === constraintId) ??
+        ({} as TColumnConstraint)
+      );
+    },
+  set:
+    ({ nodeId, constraintId }: TNodeConstraintSelectorProps) =>
+    ({ set }, newValue) =>
+      set(nodeSelector(nodeId), (node) => {
+        return updateNodeDataSetter<TTableProps>(node as TBaseNode, {
+          constraints: node.data.constraints.map((constraint) => {
+            if (constraint.id === constraintId) return newValue;
+
+            return constraint;
+          }) as TColumnConstraint[],
+        }) as TTableNode;
+      }),
 });
 
 export const nodeDescriptionSelector = selectorFamily({

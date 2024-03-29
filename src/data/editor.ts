@@ -3,6 +3,7 @@ import { ColumnGroupEnum } from '@/enums/ColumnGroupEnum';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
+import { ConstraintEnum } from '@/enums/ConstraintEnum';
 import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 import {
   BanknotesIcon,
@@ -22,6 +23,12 @@ import {
 export const DEFAULT_EDGE_DATA: TTableEdgeData = {
   sourceRelation: ColumnRelationsEnum.ONE,
   targetRelation: ColumnRelationsEnum.ONE,
+};
+
+export const CONSTRAINT_CLASSES = {
+  [ConstraintEnum.CHECK]: 'bg-amber-500 hover:bg-amber-500',
+  [ConstraintEnum.INDEX]: 'bg-lime-500 hover:bg-lime-500',
+  [ConstraintEnum.UNIQUE]: 'bg-red-500 hover:bg-red-500',
 };
 
 type TColumnInfo = {
@@ -197,6 +204,18 @@ export const DEFAULT_DATA = {
       position: { x: 0, y: 0 },
       data: {
         title: "Source table",
+        constraints: [
+          {
+            id: "123",
+            type: ConstraintEnum.INDEX,
+            columns: ["C1"]
+          },
+          {
+            id: "125",
+            type: ConstraintEnum.UNIQUE,
+            columns: ["C1", "C2"]
+          }
+        ],
         columns: [
           {
             id: "C1",
@@ -214,6 +233,7 @@ export const DEFAULT_DATA = {
       position: { x: 300, y: 300 },
       data: {
         title: "Source table",
+        constraints: [],
         columns: [
           {
             id: "C1",

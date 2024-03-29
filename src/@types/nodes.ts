@@ -3,6 +3,7 @@ import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
+import { ConstraintEnum } from '@/enums/ConstraintEnum';
 
 export type TBaseNode<D = any, T extends NodeTypeEnum = NodeTypeEnum.DEFAULT> = Node<D, T>;
 
@@ -10,6 +11,14 @@ export type TBaseNodeProps = {
   title: string;
   description?: string;
 };
+
+export type TColumnConstraint = {
+  id: string;
+  type: ConstraintEnum,
+  name?: string,
+  customValue?: string,
+  columns: string[]
+}
 
 export type TTableColumn = {
   id: string;
@@ -24,6 +33,7 @@ export type TTableColumn = {
 
 export type TTableProps = TBaseNodeProps & {
   columns: TTableColumn[];
+  constraints: TColumnConstraint[]
 };
 
 export type TTableNodeProps = NodeProps<TTableProps>;
