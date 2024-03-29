@@ -11,6 +11,7 @@ export function createNode(id: string, position?: XYPosition, data?: TTableProps
     data: {
       title: "",
       columns: [],
+      constraints: [],
       ...data
     },
     position: {
