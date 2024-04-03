@@ -34,7 +34,7 @@ export async function readLatestChangeLogVersion() : Promise<string | undefined>
         foundFirstVersion = lines[i].substring(3).trim();
       }
 
-      if (lines[i]) {
+      if (foundFirstVersion && lines[i]) {
         content += lines[i] + "\n";
       }
     }
