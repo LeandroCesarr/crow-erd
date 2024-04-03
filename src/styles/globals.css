@@ -51,4 +51,6 @@
 
 @layer components {
   @import "./reactflow/index.css";
+  @import "./modules/markdown.css";
 }
+

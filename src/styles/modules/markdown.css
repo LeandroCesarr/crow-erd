@@ -1,0 +1,19 @@
+.markdown-viewer h2 {
+  @apply text-2xl font-bold;
+}
+
+.markdown-viewer h3 {
+  @apply text-xl font-semibold mt-3;
+}
+
+.markdown-viewer ul {
+  @apply list-disc list-inside;
+}
+
+.markdown-viewer a {
+  @apply text-blue-400;
+}
+
+.markdown-viewer a:hover {
+  @apply underline;
+}
