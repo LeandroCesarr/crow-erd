@@ -4,9 +4,15 @@ import { Handle, Position } from 'reactflow';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
-import { createHandleId, nodeColumnSelector, showElementsIdAtom } from '@/store/editor';
-import { COLUMNS_MAP } from '@/data/editor';
+import {
+  createHandleId,
+  nodeColumnSelector,
+  showElementsIdAtom,
+} from '@/store/editor';
+import { COLUMNS_GROUP_MAP, COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 
 interface ITableColumnProps {
   nodeId: string;
@@ -35,6 +41,13 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     setColumn((old) => ({
       ...old,
       name: value,
+    }));
+  }
+
+  function handleChangeType(type: ColumnTypeEnum) {
+    setColumn((old) => ({
+      ...old,
+      type,
     }));
   }
 
@@ -71,13 +84,29 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
           'text-green-500': column.required,
         })}
       >
-        {columnTypeInfo?.icon && createElement(columnTypeInfo.icon as any, {
-          className: 'w-4 h-4 shrink-0',
-        })}
+        <Select onValueChange={handleChangeType} value={column.type}>
+          <SelectTrigger className="grow border-0">
+            <SelectValue placeholder="Select column type" />
+          </SelectTrigger>
+          <SelectContent>
+            {COLUMNS_GROUP_MAP.map((group) => (
+              <SelectGroup key={group.label}>
+                <SelectLabel>{group.label}</SelectLabel>
 
-        <span className="ml-2 text-muted-foreground">
-          {columnTypeInfo?.label}
-        </span>
+                {group.items.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    <div className="flex items-center">
+                      {createElement(item.icon, {
+                        className: 'w-4 h-4 mr-1',
+                      })}
+                      <span>{item.label}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="grow">
@@ -123,7 +152,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="source"
         position={Position.Left}
-        id={createHandleId(nodeId, column.id, "source")}
+        id={createHandleId(nodeId, column.id, 'source')}
       />
 
       <Handle
@@ -132,7 +161,7 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
         })}
         type="target"
         position={Position.Right}
-        id={createHandleId(nodeId, column.id, "target")}
+        id={createHandleId(nodeId, column.id, 'target')}
       />
     </div>
   );
