@@ -9,6 +9,10 @@ export function useLatestUpdates() {
     }
 
     throw new Error();
+  }, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
   })
 
   return {
