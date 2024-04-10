@@ -223,14 +223,14 @@ export const DEFAULT_DATA = {
             name: "id",
             type: ColumnTypeEnum.UUID,
             required: true,
-            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+            keyTypes: [ColumnKeyTypeEnum.PRIMARY_KEY]
           },
           {
             id: "C2",
             name: "target_id",
             type: ColumnTypeEnum.UUID,
             required: true,
-            keyType: ColumnKeyTypeEnum.FOREIGN_KEY
+            keyTypes: [ColumnKeyTypeEnum.FOREIGN_KEY]
           }
         ]
       }
@@ -248,7 +248,7 @@ export const DEFAULT_DATA = {
             name: "id",
             type: ColumnTypeEnum.UUID,
             required: true,
-            keyType: ColumnKeyTypeEnum.PRIMARY_KEY
+            keyTypes: [ColumnKeyTypeEnum.PRIMARY_KEY]
           },
         ]
       }

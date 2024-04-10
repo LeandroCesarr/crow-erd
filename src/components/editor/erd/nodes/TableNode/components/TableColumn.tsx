@@ -29,6 +29,8 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     nodeColumnSelector({ nodeId, columnId })
   );
 
+  const shouldShoeHandle = column.keyTypes.length;
+
   const columnTypeInfo = useMemo(() => {
     return COLUMNS_MAP.get(column.type);
   }, [column.type]);
@@ -51,10 +53,10 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     }));
   }
 
-  function handleChangeKeyType(type: ColumnKeyTypeEnum) {
+  function handleChangeKeyTypes(keyTypes: ColumnKeyTypeEnum[]) {
     setColumn((old) => ({
       ...old,
-      keyType: type,
+      keyTypes,
     }));
   }
 
@@ -140,28 +142,28 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
           nodeId={nodeId}
           columnId={columnId}
           required={column.required}
-          keyType={column.keyType}
-          onKeyTypeChange={handleChangeKeyType}
+          keyTypes={column.keyTypes}
+          onKeyTypeChange={handleChangeKeyTypes}
           onRequiredChange={handleRequiredChange}
         />
       </div>
 
       <Handle
-        className={classNames('handle left', {
-          'opacity-0 pointer-events-none': !column.keyType,
-        })}
         type="source"
         position={Position.Left}
         id={createHandleId(nodeId, column.id, 'source')}
+        className={classNames('handle left', {
+          'opacity-0 pointer-events-none': !shouldShoeHandle,
+        })}
       />
 
       <Handle
-        className={classNames('handle right', {
-          'opacity-0 pointer-events-none': !column.keyType,
-        })}
         type="target"
         position={Position.Right}
         id={createHandleId(nodeId, column.id, 'target')}
+        className={classNames('handle right', {
+          'opacity-0 pointer-events-none': !shouldShoeHandle,
+        })}
       />
     </div>
   );

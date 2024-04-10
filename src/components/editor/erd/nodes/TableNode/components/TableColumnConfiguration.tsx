@@ -17,15 +17,15 @@ interface ITableColumnConfigurationProps {
   nodeId: string;
   columnId: string;
   required: boolean;
-  keyType?: ColumnKeyTypeEnum;
-  onKeyTypeChange?: (value: ColumnKeyTypeEnum) => void;
+  keyTypes: ColumnKeyTypeEnum[];
+  onKeyTypeChange?: (values: ColumnKeyTypeEnum[]) => void;
   onRequiredChange?: (value: boolean) => void;
 }
 
 const TableColumnConfigurationComponent: FC<ITableColumnConfigurationProps> = ({
   nodeId,
   columnId,
-  keyType,
+  keyTypes,
   required,
   onKeyTypeChange,
   onRequiredChange,
@@ -33,6 +33,19 @@ const TableColumnConfigurationComponent: FC<ITableColumnConfigurationProps> = ({
   const handleDeleteColumn = useRecoilCallback(
     deleteColumnCallback(nodeId, columnId)
   );
+
+  function handleKeyTypesChange(value: ColumnKeyTypeEnum, include: boolean) : void {
+    if (include) {
+      onKeyTypeChange?.([
+        ...keyTypes,
+        value
+      ])
+
+      return;
+    }
+
+    onKeyTypeChange?.(keyTypes.filter((keyType) => keyType != value));
+  }
 
   return (
     <DropdownMenu>
@@ -45,17 +58,17 @@ const TableColumnConfigurationComponent: FC<ITableColumnConfigurationProps> = ({
         <DropdownMenuLabel>Configuration</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
-          checked={keyType == ColumnKeyTypeEnum.PRIMARY_KEY}
-          onCheckedChange={() =>
-            onKeyTypeChange?.(ColumnKeyTypeEnum.PRIMARY_KEY)
+          checked={keyTypes.includes(ColumnKeyTypeEnum.PRIMARY_KEY)}
+          onCheckedChange={(checked) =>
+            handleKeyTypesChange(ColumnKeyTypeEnum.PRIMARY_KEY, checked)
           }
         >
           Primary key
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={keyType == ColumnKeyTypeEnum.FOREIGN_KEY}
-          onCheckedChange={() =>
-            onKeyTypeChange?.(ColumnKeyTypeEnum.FOREIGN_KEY)
+          checked={keyTypes.includes(ColumnKeyTypeEnum.FOREIGN_KEY)}
+          onCheckedChange={(checked) =>
+            handleKeyTypesChange(ColumnKeyTypeEnum.FOREIGN_KEY, checked)
           }
         >
           Foreign key

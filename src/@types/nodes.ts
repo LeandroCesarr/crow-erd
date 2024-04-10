@@ -1,4 +1,4 @@
-import { EdgeProps, Node, NodeProps } from 'reactflow';
+import { Edge, EdgeProps, Node, NodeProps } from 'reactflow';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
@@ -25,7 +25,7 @@ export type TTableColumn = {
   type: ColumnTypeEnum;
   name: string;
   required: boolean;
-  keyType?: ColumnKeyTypeEnum;
+  keyTypes: ColumnKeyTypeEnum[];
   defaultValue?: string;
   description?: string;
   value?: string;
@@ -47,3 +47,9 @@ export type TTableEdgeData = {
 }
 
 export type TTableEdgeProps = EdgeProps<TTableEdgeData>
+
+export type TFile = {
+  version: string,
+  nodes: TTableNode[],
+  edges: Edge<TTableEdgeData>
+}
