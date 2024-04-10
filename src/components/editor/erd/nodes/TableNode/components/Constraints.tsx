@@ -1,6 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import { CONSTRAINT_CLASSES } from '@/data/editor';
+import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import {
+  nodeComputedConstraintsSelector,
   nodeConstraintColumnNamesSelector,
   nodeConstraintSelector,
   nodeConstraintsIdsSelector,
@@ -19,17 +21,40 @@ interface IConstraintItemProps {
   constraintId: string;
 }
 
+interface IComputedConstraintItemProps {
+  types: ColumnKeyTypeEnum[];
+  name: string;
+}
+
+const ComputedConstraintItem: FC<IComputedConstraintItemProps> = ({
+  name,
+  types,
+}): JSX.Element => {
+  return (
+    <div className="flex items-center">
+      <Badge className={classNames('w-16 justify-center mr-2 bg-red-500 hover:bg-red-500')}>
+        {types.join(' | ')}
+      </Badge>
+      <span>{name}</span>
+    </div>
+  );
+};
+
 const ConstraintItem: FC<IConstraintItemProps> = ({
   tableId,
   constraintId,
 }): JSX.Element => {
-  const constraint = useRecoilValue(nodeConstraintSelector({ nodeId: tableId, constraintId }))
-  const columnNames = useRecoilValue(nodeConstraintColumnNamesSelector({ nodeId: tableId, constraintId }))
+  const constraint = useRecoilValue(
+    nodeConstraintSelector({ nodeId: tableId, constraintId })
+  );
+  const columnNames = useRecoilValue(
+    nodeConstraintColumnNamesSelector({ nodeId: tableId, constraintId })
+  );
 
   return (
-    <div>
+    <div className='justify-center'>
       <Badge
-        className={classNames('w-14 justify-center mr-2', [
+        className={classNames('w-16 justify-center mr-2', [
           CONSTRAINT_CLASSES[constraint.type],
         ])}
       >
@@ -44,13 +69,24 @@ const ConstraintItem: FC<IConstraintItemProps> = ({
 };
 
 export const Constraints: FC<IConstraintsProps> = ({ nodeId }): JSX.Element => {
+  const computedConstraints = useRecoilValue(
+    nodeComputedConstraintsSelector(nodeId)
+  );
   const constraints = useRecoilValue(nodeConstraintsIdsSelector(nodeId));
 
   return (
     <>
       <ul>
+        {computedConstraints.map((constraint) => (
+          <li key={constraint.columnName}>
+            <ComputedConstraintItem
+              name={constraint.columnName}
+              types={constraint.types}
+            />
+          </li>
+        ))}
         {constraints.map((constraint) => (
-          <li key={constraint} className="flex gap-2 items-center">
+          <li key={constraint}>
             <ConstraintItem tableId={nodeId} constraintId={constraint} />
           </li>
         ))}

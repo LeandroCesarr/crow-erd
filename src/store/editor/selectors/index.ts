@@ -11,6 +11,7 @@ import { Edge } from 'reactflow';
 import {
   TBaseNode,
   TColumnConstraint,
+  TComputedConstraint,
   TTableColumn,
   TTableEdgeData,
   TTableNode,
@@ -137,6 +138,22 @@ export const nodeConstraintSelector = selectorFamily({
         }) as TTableNode;
       }),
 });
+
+export const nodeComputedConstraintsSelector = selectorFamily<TComputedConstraint[], string>({
+  key: 'nodeComputedConstraints',
+  get:
+    (nodeId: string) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+
+      return node.data.columns
+        .filter((column) => column.keyTypes.length)
+        .map((column) => ({
+          types: column.keyTypes,
+          columnName: column.name
+        }))
+    }
+})
 
 export const nodeConstraintColumnNamesSelector = selectorFamily({
   key: 'nodeConstraintColumnNames',

@@ -53,3 +53,8 @@ export type TFile = {
   nodes: TTableNode[],
   edges: Edge<TTableEdgeData>
 }
+
+export type TComputedConstraint = {
+  types: ColumnKeyTypeEnum[],
+  columnName: string
+}

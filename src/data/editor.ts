@@ -28,7 +28,7 @@ export const DEFAULT_EDGE_DATA: TTableEdgeData = {
 export const CONSTRAINT_CLASSES = {
   [ConstraintEnum.CHECK]: 'bg-amber-500 hover:bg-amber-500',
   [ConstraintEnum.INDEX]: 'bg-lime-500 hover:bg-lime-500',
-  [ConstraintEnum.UNIQUE]: 'bg-red-500 hover:bg-red-500',
+  [ConstraintEnum.UNIQUE]: 'bg-purple-500 hover:bg-purple-500',
 };
 
 type TColumnInfo = {
