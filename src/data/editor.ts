@@ -197,6 +197,7 @@ export const COLUMNS_GROUP_MAP: TColumnInfoGroup[] = Object.values(
 );
 
 export const DEFAULT_DATA = {
+  version: "0.2.0",
   nodes: [
     {
       type: NodeTypeEnum.TABLE,

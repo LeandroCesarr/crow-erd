@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { PagesEnum } from '@/enums/PagesEnum';
 import { DEFAULT_DATA } from '@/data/editor';
 import { populateRouteParams } from "@/utils/routes";
+import { migrateFile } from "@/modules/fileMigrator";
+import { sleep } from "@/utils/sleep";
 
 export function useEditorFile() {
   const { push } = useRouter();
@@ -31,16 +33,20 @@ export function useEditorFile() {
     const parsedValue = JSON.parse(rawValue);
 
     try {
-      const validationResult = editorFileSchema.parse(parsedValue);
+      const migratedFile = migrateFile(parsedValue);
+      const validationResult = editorFileSchema.parse(migratedFile);
 
       if (validationResult instanceof Error) {
         throw validationResult;
       }
 
       const fileId = fillFileData(parsedValue);
+
+      await sleep(2000);
+
       navigateToEditor(fileId)
-    } catch (error) {
-      alert("Error on load file");
+    } catch (error: any) {
+      alert(error?.message ?? "Error on load file");
     }
   }
 
@@ -56,10 +62,12 @@ export function useEditorFile() {
     setIsLoading(false);
   }
 
-  function createNew() {
+  async function createNew() {
     setIsLoading(true);
 
-    const fileId = fillFileData(DEFAULT_DATA)
+    const fileId = fillFileData(DEFAULT_DATA);
+
+    await sleep(1000);
 
     setIsLoading(false);
 
