@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/LeandroCesarr/crow-erd/compare/v0.2.1...v0.2.2) (2024-04-10)
+
+
+### Bug Fixes
+
+* fixes insert new column error ([ee00fd3](https://github.com/LeandroCesarr/crow-erd/commit/ee00fd3f100bcf69240b00db22811e1c00ecf1a1)), closes [#6](https://github.com/LeandroCesarr/crow-erd/issues/6)
+
 ### [0.2.1](https://github.com/LeandroCesarr/crow-erd/compare/v0.2.0...v0.2.1) (2024-04-10)
 
 
