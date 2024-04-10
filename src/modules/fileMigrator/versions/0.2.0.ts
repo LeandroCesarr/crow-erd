@@ -5,7 +5,7 @@ export function migrate(file: Record<string, any>): Record<string, any> {
       ...node,
       data: {
         ...node.data,
-        columns: node.data.columns.map((column: any) => ({
+        columns: node.data.columns.map(({ keyType, ...column }: any) => ({
           ...column,
           keyTypes: [column.keyType]
         }))

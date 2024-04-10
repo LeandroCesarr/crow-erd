@@ -16,6 +16,8 @@ import {
   TTableNode,
   TTableProps,
 } from '@/@types/nodes';
+import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
+import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 
 export const edgeSelector = selectorFamily({
   key: 'edge',
@@ -180,7 +182,13 @@ export const nodeColumnSelector = selectorFamily({
 
       return (
         node.data?.columns.find((column) => column.id === columnId) ??
-        ({} as TTableColumn)
+        ({
+          id: "",
+          name: "",
+          type: ColumnTypeEnum.VARCHAR,
+          required: false,
+          keyTypes: [] as ColumnKeyTypeEnum[]
+        } as TTableColumn)
       );
     },
   set:
