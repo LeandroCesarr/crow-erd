@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/LeandroCesarr/crow-erd/compare/v0.1.0...v0.2.0) (2024-04-10)
+
+
+### Features
+
+* adds editor file migrator ([e72d1cf](https://github.com/LeandroCesarr/crow-erd/commit/e72d1cf69b88654cd013f222b5abc3a7f8e81626))
+* adds the possibility of changing the column type after insertion ([fe450a2](https://github.com/LeandroCesarr/crow-erd/commit/fe450a27c3e7246559adf6ed44c2f7839d1e07f7)), closes [#2](https://github.com/LeandroCesarr/crow-erd/issues/2)
+* makes the column key type multiple ([7c52ef0](https://github.com/LeandroCesarr/crow-erd/commit/7c52ef0ead5a38de01807a2051778a40e999e451)), closes [#1](https://github.com/LeandroCesarr/crow-erd/issues/1)
+
+
+### Bug Fixes
+
+* fixes file loader button loading state ([a22e7b1](https://github.com/LeandroCesarr/crow-erd/commit/a22e7b1242c85d37994336f28065130160f3e676))
+
 ## 0.1.0 (2024-04-03)
 
 
