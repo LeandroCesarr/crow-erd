@@ -1,8 +1,12 @@
-import packageJSON from "@/../package.json";
+import rawPackageJSON from "@/../package.json";
 import { Metadata } from 'next';
 import { CrowIcon } from '@/components/icons/CrowIcon';
 import { EditorFileLoader } from '@/components/EditorFileLoader';
 import { NewDiagramCreator } from "@/components/NewDiagramCreator";
+import Link from "next/link";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+
+const packageJSON = rawPackageJSON as any
 
 export const metadata: Metadata = {
   title: 'Dashboard - Crow ERD',
@@ -29,6 +33,10 @@ export default function Page(): JSX.Element {
         </div>
 
         <div className="flex items-center justify-center p-10 text-center relative">
+          <Link href={packageJSON.repository.url} target="_blank" className="absolute top-2 right-2">
+            <GitHubLogoIcon className="w-9 h-9 border border-muted p-1 rounded-sm hover:bg-muted transition-colors" />
+          </Link>
+
           <div className="">
             <h1 className="text-2xl font-semibold tracking-tight">
               Start organizing your diagrams like a developer
