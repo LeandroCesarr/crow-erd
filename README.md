@@ -1,40 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![crow-header](./public/wallpaper.svg)
 
-## Getting Started
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE) ![GitHub Release Date](https://img.shields.io/github/release-date/LeandroCesarr/crow-erd) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/LeandroCesarr/crow-erd/vercel.yml)
 
-First, run the development server:
+This project is an entity diagram editor, developed with Next.js, an open-source React web application framework that enables server-side rendering and client-side rendering for web applications. This editor allows users to create, visualize, and edit entity diagrams easily and efficiently.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Entity Diagram Creation:** Users can create entity diagrams by dragging and dropping elements onto the workspace.
+- **Intuitive Editing:** Intuitive tools allow users to add, remove, and connect entities and attributes to create custom entity diagrams.
+- **Clear Visualization:** Entity diagrams are rendered clearly and organized, making it easy to understand and analyze the relationships between entities and attributes.
+- **Export and Import:** Users can export entity diagrams to various file formats and also import previously created diagrams for editing or viewing. Currently, the only way to save progress is by exporting a JSON file.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## How to Use
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+1.  **Installation of Dependencies:**
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    Before starting the project, make sure you have Node.js and npm installed on your system. Then, run the following command to install project dependencies:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+    ```bash
+    npm install
+    ```
 
-## Learn More
+2.  **Running the Application:**
 
-To learn more about Next.js, take a look at the following resources:
+    After installing dependencies, start the development server with the following command:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    npm run dev
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    This will start the server at `http://localhost:3000`. You can access the application in your browser by visiting this URL.
 
-## Deploy on Vercel
+3.  **Using the Editor:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    - Drag and drop entities.
+    - Connect entities using the available connection tools.
+    - Edit entity and attributes.
+    - To export the diagram, use the export option provided.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contributing
+
+Feel free to contribute to this project and expand its features or make improvements. If you have any questions or suggestions, don't hesitate to contact the development team. Thank you for your interest in our entity diagram editor!
+
+## License
+This project is licensed under the MIT License.
