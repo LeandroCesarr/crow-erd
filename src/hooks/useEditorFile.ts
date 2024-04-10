@@ -40,7 +40,7 @@ export function useEditorFile() {
         throw validationResult;
       }
 
-      const fileId = fillFileData(parsedValue);
+      const fileId = fillFileData(migratedFile);
 
       await sleep(2000);
 

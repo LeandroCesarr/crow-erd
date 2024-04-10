@@ -74,6 +74,10 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     }));
   }
 
+  if (!column?.id) {
+    return <></>
+  }
+
   return (
     <div className="group flex items-center relative gap-2" key={column.id}>
       {showElementsId ? (
