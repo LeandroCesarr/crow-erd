@@ -15,6 +15,7 @@ import { useRecoilCallback } from 'recoil';
 import { addTableNodeColumnCallback } from '@/store/editor';
 import { TTableColumn } from '@/@types/nodes';
 import { COLUMNS_GROUP_MAP } from '@/data/editor';
+import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 
 interface IInsertColumnProps {
   tableId: string;
@@ -32,6 +33,7 @@ export const InsertColumn: FC<IInsertColumnProps> = ({
       name: 'New column',
       type: selectedType as ColumnTypeEnum,
       required: true,
+      keyTypes: [] as ColumnKeyTypeEnum[]
     } as TTableColumn);
   });
 
