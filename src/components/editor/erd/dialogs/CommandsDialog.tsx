@@ -20,6 +20,7 @@ import { ConfigurationCommands } from '@/components/common/commands/Configuratio
 import { EditorCommands } from '../commands/nodes/EditorCommands';
 import { CommandsPageWrapper } from '@/components/common/commands/CommandsPageWrapper';
 import { COMMAND_DIALOG_ROOT_PAGE } from '@/data/editor';
+import { NavigationCommands } from '@/components/common/commands/NavigationCommands';
 
 export const CommandsDialog: FC = (): JSX.Element => {
   const [search, setSearch] = useState('');
@@ -73,6 +74,7 @@ export const CommandsDialog: FC = (): JSX.Element => {
               </CommandsPageWrapper>
 
               <ConfigurationCommands onExecute={handleExecuteCommand} />
+              <NavigationCommands onExecute={handleExecuteCommand} />
             </CommandList>
           </Command>
         </div>
