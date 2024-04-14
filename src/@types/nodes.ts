@@ -49,6 +49,7 @@ export type TTableEdgeData = {
 export type TTableEdgeProps = EdgeProps<TTableEdgeData>
 
 export type TFile = {
+  title: string
   version: string,
   nodes: TTableNode[],
   edges: Edge<TTableEdgeData>

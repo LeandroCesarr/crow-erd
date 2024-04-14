@@ -4,6 +4,11 @@ import { syncLocalStorageEffect } from "@/store/utils";
 import { TTableEdgeData, TTableNode } from "@/@types/nodes";
 import { COMMAND_DIALOG_ROOT_PAGE } from "@/data/editor";
 
+export const fileTitleAtom = atom({
+  key: "fileTitle",
+  default: "",
+})
+
 export const nodesAtom = atom<TTableNode[]>({
   key: "nodes",
   default: [],
@@ -46,6 +51,11 @@ export const currentTableIdAtom = atom<string>({
 
 export const commandsDialogAtom = atom({
   key: "commandsDialog",
+  default: false
+})
+
+export const diagramDetailsDialogAtom = atom({
+  key: "diagramDetailsDialog",
   default: false
 })
 

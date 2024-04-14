@@ -4,6 +4,7 @@ import 'reactflow/dist/style.css';
 import { FC, useEffect } from 'react';
 import ReactFlow, {
   Background,
+  ConnectionMode,
   Controls,
   MiniMap,
   ReactFlowProvider,
@@ -22,6 +23,8 @@ import { loadedFileIdAtom } from '@/store/editor';
 import { PagesEnum } from '@/enums/PagesEnum';
 import classNames from 'classnames';
 import { TableOptionsDialog } from './dialogs/TableOptionsDialog';
+import { FileDetails } from './panels/FileDetails';
+import { FileDetailsDialog } from './dialogs/FileDetailsDialog';
 
 export const ErdEditor: FC = () => {
   const editorProps = useEditor();
@@ -49,6 +52,7 @@ export const ErdEditor: FC = () => {
           defaultEdgeOptions={EDGE_DEFAULT_PROPS}
           {...editorProps}
         >
+          <FileDetails />
           <Background />
           <Controls />
           <MiniMap />
@@ -60,6 +64,7 @@ export const ErdEditor: FC = () => {
         <CommandLineDialog />
         <EdgeOptionsDialog />
         <TableOptionsDialog />
+        <FileDetailsDialog />
       </div>
     </ReactFlowProvider>
   );

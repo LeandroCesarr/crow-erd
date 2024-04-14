@@ -1,4 +1,4 @@
-import { TTableEdgeData } from '@/@types/nodes';
+import { TFile, TTableEdgeData } from '@/@types/nodes';
 import { ColumnGroupEnum } from '@/enums/ColumnGroupEnum';
 import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
@@ -196,8 +196,9 @@ export const COLUMNS_GROUP_MAP: TColumnInfoGroup[] = Object.values(
   }, {} as Record<ColumnGroupEnum,TColumnInfoGroup>)
 );
 
-export const DEFAULT_DATA = {
-  version: "0.2.0",
+export const DEFAULT_DATA: TFile = {
+  title: "",
+  version: "0.3.0",
   nodes: [
     {
       type: NodeTypeEnum.TABLE,
