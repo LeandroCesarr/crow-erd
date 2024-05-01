@@ -1,13 +1,13 @@
 'use client';
 
 import 'reactflow/dist/style.css';
-import { FC, useEffect } from 'react';
+import { ComponentProps, FC, useEffect } from 'react';
 import ReactFlow, {
   Background,
-  ConnectionMode,
   Controls,
   MiniMap,
   ReactFlowProvider,
+  SelectionMode,
 } from 'reactflow';
 import { ActionsPanel } from './panels/ActionsPanel';
 import { CommandsDialog } from './dialogs/CommandsDialog';
@@ -25,6 +25,17 @@ import classNames from 'classnames';
 import { TableOptionsDialog } from './dialogs/TableOptionsDialog';
 import { FileDetails } from './panels/FileDetails';
 import { FileDetailsDialog } from './dialogs/FileDetailsDialog';
+
+const DEFAULT_EDITOR_PROPS: ComponentProps<typeof ReactFlow> = {
+  fitView: true,
+  panOnScroll: true,
+  selectionOnDrag: true,
+  panOnDrag: [1, 2],
+  selectionMode: SelectionMode.Partial,
+  nodeTypes: NODES_MAP,
+  edgeTypes: EDGES_MAP,
+  defaultEdgeOptions: EDGE_DEFAULT_PROPS
+}
 
 export const ErdEditor: FC = () => {
   const editorProps = useEditor();
@@ -46,10 +57,7 @@ export const ErdEditor: FC = () => {
         })}
       >
         <ReactFlow
-          fitView
-          nodeTypes={NODES_MAP}
-          edgeTypes={EDGES_MAP}
-          defaultEdgeOptions={EDGE_DEFAULT_PROPS}
+          {...DEFAULT_EDITOR_PROPS}
           {...editorProps}
         >
           <FileDetails />

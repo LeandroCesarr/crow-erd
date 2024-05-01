@@ -37,6 +37,11 @@ export const showElementsIdAtom = atom<boolean>({
   effects: [syncLocalStorageEffect()]
 })
 
+export const isSelectingAtom = atom({
+  key: "isSelecting",
+  default: false
+})
+
 export const currentEdgeIdAtom = atom<string>({
   key: "currentEdgeId",
   default: "",

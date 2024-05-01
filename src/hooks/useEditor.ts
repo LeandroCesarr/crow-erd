@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import {
   applyNodeChanges,
   applyEdgeChanges,
@@ -9,12 +9,23 @@ import {
   EdgeChange,
 } from 'reactflow';
 import { EdgeTypeEnum } from '@/enums/EdgeTypeEnum';
-import { nodesAtom, edgesAtom, createEdge } from '@/store/editor';
+import { nodesAtom, edgesAtom, createEdge, isSelectingAtom } from '@/store/editor';
 import { TTableNode } from '@/@types/nodes';
 
 export function useEditor() {
+  const setIsSelecting = useSetRecoilState(isSelectingAtom)
   const [nodes, setNodes] = useRecoilState(nodesAtom);
   const [edges, setEdges] = useRecoilState(edgesAtom);
+
+  const onSelectionStart = useCallback(
+    () => setIsSelecting(true),
+    []
+  );
+
+  const onSelectionEnd = useCallback(
+    () => setIsSelecting(false),
+    []
+  );
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds) as TTableNode[]),
@@ -49,5 +60,7 @@ export function useEditor() {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    onSelectionStart,
+    onSelectionEnd
   };
 }

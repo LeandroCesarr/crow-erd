@@ -1,6 +1,7 @@
 import { selector, selectorFamily } from 'recoil';
 import {
   edgesAtom,
+  isSelectingAtom,
   nodesAtom,
   updateEdgeListItemSetter,
   updateNodeColumnsSetter,
@@ -64,6 +65,22 @@ export const nodeSelector = selectorFamily({
             newValue as TBaseNode
           ) as TTableNode[]
       );
+    },
+});
+
+export const nodeSelectedSelector = selectorFamily({
+  key: 'nodeSelected',
+  get:
+    (nodeId: string) =>
+    ({ get }) => {
+      const isDragSelecting = get(isSelectingAtom)
+      const nodes = get(nodesAtom);
+
+      const selectedNodes = nodes
+        .filter(({ selected }) => selected)
+        .map(({ id }) => id);
+
+      return selectedNodes.includes(nodeId) && selectedNodes.length == 1 && !isDragSelecting;
     },
 });
 

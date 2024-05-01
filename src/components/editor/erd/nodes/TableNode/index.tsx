@@ -7,7 +7,7 @@ import { InsertColumn } from './components/InsertColumn';
 import { TableTitle } from './components/TableTitle';
 import { TableDescription } from './components/TableDescription';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { currentTableIdAtom, showElementsIdAtom } from '@/store/editor';
+import { currentTableIdAtom, nodeSelectedSelector, showElementsIdAtom } from '@/store/editor';
 import { Button } from '@/components/ui/button';
 import { Cross1Icon, MixerHorizontalIcon } from '@radix-ui/react-icons';
 import { Constraints } from './components/Constraints';
@@ -20,11 +20,12 @@ export const TableNode = ({
 }: TTableNodeProps) => {
   const setCurrentTableId = useSetRecoilState(currentTableIdAtom);
   const showElementsId = useRecoilValue(showElementsIdAtom);
+  const selectedOne = useRecoilValue(nodeSelectedSelector(id))
   const { removeNode } = useNode();
 
   const shouldShowActions = useMemo(() => {
-    return selected && !dragging;
-  }, [selected, dragging]);
+    return selectedOne && !dragging;
+  }, [selectedOne, dragging]);
 
   function handleRemoveNode(): void {
     removeNode(id);
