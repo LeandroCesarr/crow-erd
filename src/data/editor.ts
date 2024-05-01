@@ -1,6 +1,5 @@
 import { TFile, TTableEdgeData } from '@/@types/nodes';
 import { ColumnGroupEnum } from '@/enums/ColumnGroupEnum';
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
 import { ConstraintEnum } from '@/enums/ConstraintEnum';
@@ -26,7 +25,8 @@ export const DEFAULT_EDGE_DATA: TTableEdgeData = {
 };
 
 export const CONSTRAINT_CLASSES = {
-  [ConstraintEnum.CHECK]: 'bg-amber-500 hover:bg-amber-500',
+  [ConstraintEnum.PRIMARY]: 'bg-amber-500 hover:bg-amber-500',
+  [ConstraintEnum.CHECK]: 'bg-blue-500 hover:bg-blue-500',
   [ConstraintEnum.INDEX]: 'bg-lime-500 hover:bg-lime-500',
   [ConstraintEnum.UNIQUE]: 'bg-red-500 hover:bg-red-500',
 };
@@ -209,7 +209,7 @@ export const DEFAULT_DATA: TFile = {
         constraints: [
           {
             id: "123",
-            type: ConstraintEnum.INDEX,
+            type: ConstraintEnum.PRIMARY,
             columns: ["C1"]
           },
           {
@@ -223,15 +223,13 @@ export const DEFAULT_DATA: TFile = {
             id: "C1",
             name: "id",
             type: ColumnTypeEnum.UUID,
-            required: true,
-            keyTypes: [ColumnKeyTypeEnum.PRIMARY_KEY]
+            required: true
           },
           {
             id: "C2",
             name: "target_id",
             type: ColumnTypeEnum.UUID,
-            required: true,
-            keyTypes: [ColumnKeyTypeEnum.FOREIGN_KEY]
+            required: true
           }
         ]
       }
@@ -248,8 +246,7 @@ export const DEFAULT_DATA: TFile = {
             id: "C1",
             name: "id",
             type: ColumnTypeEnum.UUID,
-            required: true,
-            keyTypes: [ColumnKeyTypeEnum.PRIMARY_KEY]
+            required: true
           },
         ]
       }

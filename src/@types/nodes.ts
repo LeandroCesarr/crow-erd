@@ -1,6 +1,5 @@
 import { Edge, EdgeProps, Node, NodeProps } from 'reactflow';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnRelationsEnum } from '@/enums/ColumnRelationsEnum';
 import { NodeTypeEnum } from '@/enums/NodeTypeEnum';
 import { ConstraintEnum } from '@/enums/ConstraintEnum';
@@ -25,7 +24,6 @@ export type TTableColumn = {
   type: ColumnTypeEnum;
   name: string;
   required: boolean;
-  keyTypes: ColumnKeyTypeEnum[];
   defaultValue?: string;
   description?: string;
   value?: string;
@@ -52,5 +50,5 @@ export type TFile = {
   title: string
   version: string,
   nodes: TTableNode[],
-  edges: Edge<TTableEdgeData>
+  edges: Edge<TTableEdgeData>[]
 }

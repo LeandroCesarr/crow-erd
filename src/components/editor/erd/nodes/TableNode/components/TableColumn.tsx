@@ -1,18 +1,35 @@
-import React, { ChangeEvent, FC, createElement, memo, useMemo } from 'react';
+import React, {
+  ChangeEvent,
+  FC,
+  createElement,
+  memo,
+  useEffect,
+  useMemo,
+} from 'react';
 import classNames from 'classnames';
 import { Handle, Position } from 'reactflow';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { useDoubleClickInput } from '@/hooks/useDoubleClickInput';
 import {
+  columnIsPrimaryKeySelector,
   createHandleId,
   nodeColumnSelector,
   showElementsIdAtom,
 } from '@/store/editor';
 import { COLUMNS_GROUP_MAP, COLUMNS_MAP } from '@/data/editor';
 import { TableColumnConfiguration } from './TableColumnConfiguration';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
+import { Button } from '@/components/ui/button';
+import { ValueIcon, ValueNoneIcon } from '@radix-ui/react-icons';
 
 interface ITableColumnProps {
   nodeId: string;
@@ -29,7 +46,9 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     nodeColumnSelector({ nodeId, columnId })
   );
 
-  const shouldShoeHandle = column.keyTypes.length;
+  const isColumnPrimaryKey = useRecoilValue(
+    columnIsPrimaryKeySelector({ nodeId, columnId })
+  );
 
   const columnTypeInfo = useMemo(() => {
     return COLUMNS_MAP.get(column.type);
@@ -53,18 +72,15 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     }));
   }
 
-  function handleChangeKeyTypes(keyTypes: ColumnKeyTypeEnum[]) {
-    setColumn((old) => ({
-      ...old,
-      keyTypes,
-    }));
-  }
-
   function handleRequiredChange(required: boolean) {
     setColumn((old) => ({
       ...old,
       required,
     }));
+  }
+
+  function handleToggleRequiredChange() {
+    handleRequiredChange(!column.required);
   }
 
   function handleValueChange(evt: ChangeEvent<HTMLInputElement>) {
@@ -74,21 +90,46 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
     }));
   }
 
+  useEffect(() => {
+    if (isColumnPrimaryKey && !column.required) handleRequiredChange(true);
+  }, [isColumnPrimaryKey]);
+
   if (!column?.id) {
-    return <></>
+    return <></>;
   }
 
   return (
-    <div className="group flex items-center relative gap-2" key={column.id}>
+    <div className="group flex items-center relative" key={column.id}>
       {showElementsId ? (
         <p className="shrink-0 mr-2 text-muted-foreground">#{column.id}</p>
       ) : null}
 
       <div
-        className={classNames('w-28 flex items-center shrink-0', {
-          'text-amber-500': !column.required,
-          'text-green-500': column.required,
+        className={classNames('nodrag shrink-0', {
+          'cursor-not-allowed': isColumnPrimaryKey,
         })}
+      >
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={handleToggleRequiredChange}
+          disabled={isColumnPrimaryKey}
+          className={classNames(
+            'hover:bg-transparent border-transparent transition-colors',
+            {
+              'text-green-500 hover:text-green-700 hover:border-green-700':
+                column.required,
+              'text-amber-500 hover:text-amber-700 hover:border-amber-700':
+                !column.required,
+            }
+          )}
+        >
+          {column.required ? <ValueIcon /> : <ValueNoneIcon />}
+        </Button>
+      </div>
+
+      <div
+        className={classNames('w-28 flex items-center shrink-0 text-green-500')}
       >
         <Select onValueChange={handleChangeType} value={column.type}>
           <SelectTrigger className="grow border-0">
@@ -142,32 +183,21 @@ const TableColumnComponent: FC<ITableColumnProps> = ({
       ) : null}
 
       <div>
-        <TableColumnConfiguration
-          nodeId={nodeId}
-          columnId={columnId}
-          required={column.required}
-          keyTypes={column.keyTypes}
-          onKeyTypeChange={handleChangeKeyTypes}
-          onRequiredChange={handleRequiredChange}
-        />
+        <TableColumnConfiguration nodeId={nodeId} columnId={columnId} />
       </div>
 
       <Handle
         type="source"
         position={Position.Left}
         id={createHandleId(nodeId, column.id, 'source')}
-        className={classNames('handle left', {
-          'opacity-0 pointer-events-none': !shouldShoeHandle,
-        })}
+        className={classNames('handle left')}
       />
 
       <Handle
         type="target"
         position={Position.Right}
         id={createHandleId(nodeId, column.id, 'target')}
-        className={classNames('handle right', {
-          'opacity-0 pointer-events-none': !shouldShoeHandle,
-        })}
+        className={classNames('handle right')}
       />
     </div>
   );

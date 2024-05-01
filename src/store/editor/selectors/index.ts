@@ -16,8 +16,8 @@ import {
   TTableNode,
   TTableProps,
 } from '@/@types/nodes';
-import { ColumnKeyTypeEnum } from '@/enums/ColumnKeyTypeEnum';
 import { ColumnTypeEnum } from '@/enums/ColumnTypeEnum';
+import { ConstraintEnum } from '@/enums/ConstraintEnum';
 
 export const edgeSelector = selectorFamily({
   key: 'edge',
@@ -106,7 +106,9 @@ export const nodeConstraintsIdsSelector = selectorFamily({
     ({ get }) => {
       const node = get(nodeSelector(nodeId));
 
-      return node.data?.constraints.map(({ id }) => id) ?? [];
+      return node.data?.constraints
+        .filter(({ columns }) => !!columns.length)
+        .map(({ id }) => id) ?? [];
     },
 });
 
@@ -136,6 +138,19 @@ export const nodeConstraintSelector = selectorFamily({
           }) as TColumnConstraint[],
         }) as TTableNode;
       }),
+});
+
+export const columnIsPrimaryKeySelector = selectorFamily({
+  key: 'columnIsPrimaryKeySelector',
+  get:
+    ({ nodeId, columnId }: { nodeId: string; columnId: string }) =>
+    ({ get }) => {
+      const node = get(nodeSelector(nodeId));
+
+      return (
+        node.data?.constraints.some((c) => c.type == ConstraintEnum.PRIMARY && c.columns.includes(columnId)) ?? false
+      );
+    }
 });
 
 export const nodeConstraintColumnNamesSelector = selectorFamily({
@@ -186,8 +201,7 @@ export const nodeColumnSelector = selectorFamily({
           id: "",
           name: "",
           type: ColumnTypeEnum.VARCHAR,
-          required: false,
-          keyTypes: [] as ColumnKeyTypeEnum[]
+          required: false
         } as TTableColumn)
       );
     },
